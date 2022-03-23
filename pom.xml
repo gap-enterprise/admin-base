@@ -79,7 +79,7 @@ SOFTWARE.
     <dependency>
       <groupId>com.h2database</groupId>
       <artifactId>h2</artifactId>
-      <version>1.4.200</version>
+      <version>2.0.206</version>
       <scope>runtime</scope>
     </dependency>
     <dependency>
@@ -139,7 +139,7 @@ SOFTWARE.
     <dependency>
       <groupId>io.surati.gap</groupId>
       <artifactId>commons-utils</artifactId>
-      <version>0.1</version>
+      <version>0.2</version>
     </dependency>
     <dependency>
       <groupId>io.surati.gap</groupId>
