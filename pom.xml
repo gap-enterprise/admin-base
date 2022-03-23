@@ -72,11 +72,6 @@ SOFTWARE.
       <version>5.8.2</version>
       <scope>test</scope>
     </dependency>
-    <dependency>
-      <groupId>org.postgresql</groupId>
-      <artifactId>postgresql</artifactId>
-      <version>42.3.3</version>
-    </dependency>
     <!--
       Use 1.4.x because there is an error on 2.x.x.
       See https://stackoverflow.com/questions/70696570/h2-database-engine-version-upgrade-from-1-4-182-to-2-0-x-fails-with-caused-by-o
@@ -85,6 +80,7 @@ SOFTWARE.
       <groupId>com.h2database</groupId>
       <artifactId>h2</artifactId>
       <version>1.4.200</version>
+      <scope>runtime</scope>
     </dependency>
     <dependency>
       <groupId>org.hamcrest</groupId>
@@ -101,6 +97,7 @@ SOFTWARE.
       <groupId>org.liquibase</groupId>
       <artifactId>liquibase-core</artifactId>
       <version>4.9.0</version>
+      <scope>runtime</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.commons</groupId>
