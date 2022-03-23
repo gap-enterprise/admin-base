@@ -30,8 +30,8 @@ public final class JooqGen {
      */
     public static void main(final String[] args) throws Exception {
         new JooqGenerator(
-            "liquibase/db-admin.changelog-master.xml",
-            "io.surati.gap.admin.module.jooq.generated",
+            "io/surati/gap/admin/liquibase/db-admin.changelog-master.xml",
+            "io.surati.gap.admin.jooq.generated",
             ".*",
             "src/main/java"
         ).start();
