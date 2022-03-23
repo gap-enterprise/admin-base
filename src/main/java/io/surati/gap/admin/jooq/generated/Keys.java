@@ -3,16 +3,17 @@
  */
 package io.surati.gap.admin.jooq.generated;
 
+
 import io.surati.gap.admin.jooq.generated.tables.AccessProfile;
+import io.surati.gap.admin.jooq.generated.tables.AppUser;
 import io.surati.gap.admin.jooq.generated.tables.EventLog;
 import io.surati.gap.admin.jooq.generated.tables.Person;
+import io.surati.gap.admin.jooq.generated.tables.Profile;
 import io.surati.gap.admin.jooq.generated.tables.records.AccessProfileRecord;
 import io.surati.gap.admin.jooq.generated.tables.records.AppUserRecord;
 import io.surati.gap.admin.jooq.generated.tables.records.EventLogRecord;
 import io.surati.gap.admin.jooq.generated.tables.records.PersonRecord;
 import io.surati.gap.admin.jooq.generated.tables.records.ProfileRecord;
-import io.surati.gap.admin.jooq.generated.tables.AppUser;
-import io.surati.gap.admin.jooq.generated.tables.Profile;
 
 import org.jooq.ForeignKey;
 import org.jooq.TableField;
@@ -24,7 +25,6 @@ import org.jooq.impl.Internal;
 /**
  * A class modelling foreign key relationships and constraints of tables in 
  * public.
- * @since 0.1
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Keys {
