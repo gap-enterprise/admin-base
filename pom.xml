@@ -139,7 +139,7 @@ SOFTWARE.
     <dependency>
       <groupId>io.surati.gap</groupId>
       <artifactId>commons-utils</artifactId>
-      <version>0.1</version>
+      <version>0.2</version>
     </dependency>
     <dependency>
       <groupId>io.surati.gap</groupId>
@@ -149,7 +149,7 @@ SOFTWARE.
     <dependency>
       <groupId>com.zaxxer</groupId>
       <artifactId>HikariCP</artifactId>
-      <version>4.0.3</version>
+      <version>5.0.1</version>
       <scope>runtime</scope>
     </dependency>
     <dependency>
