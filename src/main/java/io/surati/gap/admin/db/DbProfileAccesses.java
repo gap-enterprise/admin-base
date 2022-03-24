@@ -25,7 +25,6 @@ import io.surati.gap.admin.api.Profile;
 import io.surati.gap.admin.api.ProfileAccesses;
 import io.surati.gap.database.utils.exceptions.DatabaseException;
 import java.sql.SQLException;
-import java.util.Arrays;
 import javax.sql.DataSource;
 import org.cactoos.text.Joined;
 
@@ -64,9 +63,11 @@ public final class DbProfileAccesses implements ProfileAccesses {
 	public Iterable<Access> iterate() {
 		try {
 			if(this.isAdmin()) {
-				return () -> Arrays.stream(Access.values()).filter(a -> a != Access.TRAVAILLER_DANS_SON_PROPRE_ESPACE_DE_TRAVAIL).iterator();
+				return () -> Access.VALUES.stream().filter(
+					a -> !a.code().equals("TRAVAILLER_DANS_SON_PROPRE_ESPACE_DE_TRAVAIL")
+				).iterator();
 			} else {
-				return 
+				return
 	                new JdbcSession(this.source)
 	                    .sql(
 	                        new Joined(
@@ -78,8 +79,7 @@ public final class DbProfileAccesses implements ProfileAccesses {
 	                    .set(this.profile.id())
 	                    .select(
 	                		new ListOutcome<>(
-	                        rset ->
-	                            Access.valueOf(rset.getString(1))
+	                        	rset -> Access.get(rset.getString(1))
 	                        )
 	                    );
 			}
@@ -89,9 +89,9 @@ public final class DbProfileAccesses implements ProfileAccesses {
 	}
 
 	@Override
-	public boolean has(Access access) {
+	public boolean has(final Access access) {
 		try {
-			if(this.isAdmin() && access != Access.TRAVAILLER_DANS_SON_PROPRE_ESPACE_DE_TRAVAIL) {
+			if(this.isAdmin() && !access.code().equals("TRAVAILLER_DANS_SON_PROPRE_ESPACE_DE_TRAVAIL")) {
 				return true;
 			} else {
 				return new JdbcSession(this.source)
@@ -102,7 +102,7 @@ public final class DbProfileAccesses implements ProfileAccesses {
 		        				"WHERE access_id=? AND profile_id=?"
 		        			).toString()
 		        		)
-				        .set(access.name())
+				        .set(access.code())
 				        .set(this.profile.id())
 				        .select(new SingleOutcome<>(Long.class)) > 0;
 			}
@@ -112,7 +112,7 @@ public final class DbProfileAccesses implements ProfileAccesses {
 	}
 
 	@Override
-	public void add(Access access) {
+	public void add(final Access access) {
 		try {
 			if(this.isAdmin()) {
 				return;
@@ -127,7 +127,7 @@ public final class DbProfileAccesses implements ProfileAccesses {
                     "(?, ?)"
                 ).toString()
             )
-            .set(access.name())
+            .set(access.code())
             .set(this.profile.id())
             .insert(Outcome.VOID);
         } catch (SQLException e) {
@@ -136,7 +136,7 @@ public final class DbProfileAccesses implements ProfileAccesses {
 	}
 
 	@Override
-	public void remove(Access access) {
+	public void remove(final Access access) {
 		try {
 			if(this.isAdmin()) {
 				return;
@@ -149,7 +149,7 @@ public final class DbProfileAccesses implements ProfileAccesses {
                         "WHERE access_id=? AND profile_id=?"
                     ).toString()
                 )
-                .set(access.name())
+                .set(access.code())
                 .set(this.profile.id())
                 .execute();
         } catch (SQLException e) {
