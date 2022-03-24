@@ -9,7 +9,7 @@ final class DataSourceExtension extends AbstractDataSourceExtension {
      */
     public DataSourceExtension() {
         super(
-            "io/surati/gap/admin/liquibase/db-admin.changelog-master.xml"
+            AdminDatabaseBuiltWithLiquibase.CHANGELOG_MASTER_FILENAME
         );
     }
 }
