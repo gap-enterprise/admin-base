@@ -14,27 +14,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package io.surati.gap.admin.jooq;
+package io.surati.gap.admin.db;
 
-import io.surati.gap.admin.db.AdminDatabaseBuiltWithLiquibase;
-import io.surati.gap.database.utils.jooq.JooqGenerator;
+import com.lightweight.db.DataSourceWrap;
+import com.lightweight.db.LiquibaseDataSource;
+import javax.sql.DataSource;
 
 /**
- * Class used to generate jOOQ classes.
+ * Data source decorator that automatically build Admin module database with liquibase.
+ *
  * @since 0.1
  */
-public final class JooqGen {
+public final class AdminDatabaseBuiltWithLiquibase extends DataSourceWrap {
 
     /**
-     * Entry point.
-     * @param args Arguments
+     * Changelog master file name.
      */
-    public static void main(final String[] args) throws Exception {
-        new JooqGenerator(
-            AdminDatabaseBuiltWithLiquibase.CHANGELOG_MASTER_FILENAME,
-            "io.surati.gap.admin.jooq.generated",
-            ".*",
-            "src/main/java"
-        ).start();
+    public static final String CHANGELOG_MASTER_FILENAME =
+        "io/surati/gap/admin/liquibase/db-admin.changelog-master.xml";
+
+    /**
+     * Ctor.
+     * @param src Data source
+     */
+    public AdminDatabaseBuiltWithLiquibase(final DataSource src) {
+        super(
+            new LiquibaseDataSource(
+                src, AdminDatabaseBuiltWithLiquibase.CHANGELOG_MASTER_FILENAME
+            )
+        );
     }
 }
