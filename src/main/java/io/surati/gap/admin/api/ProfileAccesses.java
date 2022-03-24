@@ -50,7 +50,6 @@ public interface ProfileAccesses {
 	
 	/**
 	 * Remove access.
-	 * @param access to remove all 
 	 */
 	void removeAll();
 }
