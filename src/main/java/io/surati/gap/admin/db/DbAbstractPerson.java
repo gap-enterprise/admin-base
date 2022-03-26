@@ -60,7 +60,7 @@ public abstract class DbAbstractPerson implements Person {
 	public String name() {
 		try (
 				final Connection connection = source.getConnection(); 
-				final PreparedStatement pstmt = connection.prepareStatement("SELECT name FROM person WHERE id=?")
+				final PreparedStatement pstmt = connection.prepareStatement("SELECT name FROM ad_person WHERE id=?")
 		) {
 			pstmt.setLong(1, id);
 			try (final ResultSet rs = pstmt.executeQuery()) {

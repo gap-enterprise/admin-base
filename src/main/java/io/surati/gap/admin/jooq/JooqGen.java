@@ -33,7 +33,7 @@ public final class JooqGen {
         new JooqGenerator(
             AdminDatabaseBuiltWithLiquibase.CHANGELOG_MASTER_FILENAME,
             "io.surati.gap.admin.jooq.generated",
-            ".*",
+            "ad_(.*)",
             "src/main/java"
         ).start();
     }

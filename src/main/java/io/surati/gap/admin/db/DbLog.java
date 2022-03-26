@@ -21,6 +21,8 @@ import io.surati.gap.admin.api.Log;
 import javax.sql.DataSource;
 import java.time.LocalDateTime;
 import java.util.logging.Level;
+
+import io.surati.gap.admin.jooq.generated.tables.AdEventLog;
 import org.cactoos.iterable.IterableOf;
 import org.jooq.DSLContext;
 import org.jooq.impl.DSL;
@@ -36,8 +38,7 @@ public final class DbLog implements Log {
 	/**
 	 * Table of log events.
 	 */
-	private static final io.surati.gap.admin.jooq.generated.tables.EventLog EVENT_LOG =
-		io.surati.gap.admin.jooq.generated.tables.EventLog.EVENT_LOG;
+	private static final AdEventLog EVENT_LOG = AdEventLog.AD_EVENT_LOG;
 
 	/**
 	 * jOOQ database context.

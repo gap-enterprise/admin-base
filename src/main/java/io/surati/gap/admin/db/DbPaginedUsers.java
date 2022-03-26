@@ -99,9 +99,9 @@ public final class DbPaginedUsers implements Users  {
                     .sql(
                         new Joined(
                             " ",
-                            "SELECT au.id FROM app_user as au",
-	                        "LEFT JOIN person as ps ON ps.id = au.id",
-	                        "LEFT JOIN profile as pf ON pf.id = au.profile_id",
+                            "SELECT au.id FROM ad_user as au",
+	                        "LEFT JOIN ad_person as ps ON ps.id = au.id",
+	                        "LEFT JOIN ad_profile as pf ON pf.id = au.profile_id",
 	                        "WHERE au.login ILIKE ? OR pf.name ILIKE ? OR ps.name ILIKE ?",
             				"LIMIT ? OFFSET ?"
                         ).toString()
@@ -138,9 +138,9 @@ public final class DbPaginedUsers implements Users  {
 					.sql(
 	                    new Joined(
 	                        " ",
-	                        "SELECT COUNT(au.*) FROM app_user as au",
-	                        "LEFT JOIN person as ps ON ps.id = au.id",
-	                        "LEFT JOIN profile as pf ON pf.id = au.profile_id",
+	                        "SELECT COUNT(au.*) FROM ad_user as au",
+	                        "LEFT JOIN ad_person as ps ON ps.id = au.id",
+	                        "LEFT JOIN ad_profile as pf ON pf.id = au.profile_id",
 	                        "WHERE au.login ILIKE ? OR pf.name ILIKE ? OR ps.name ILIKE ?"
 	                    ).toString()
 	                )

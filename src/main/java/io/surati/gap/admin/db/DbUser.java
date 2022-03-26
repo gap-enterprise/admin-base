@@ -19,7 +19,8 @@ package io.surati.gap.admin.db;
 import com.google.common.base.Objects;
 import io.surati.gap.admin.api.Profile;
 import io.surati.gap.admin.api.User;
-import io.surati.gap.admin.jooq.generated.tables.records.AppUserRecord;
+import io.surati.gap.admin.jooq.generated.tables.AdUser;
+import io.surati.gap.admin.jooq.generated.tables.records.AdUserRecord;
 import io.surati.gap.admin.secure.ConstantSalt;
 import io.surati.gap.admin.secure.EncryptedWordImpl;
 import io.surati.gap.admin.secure.GeneratedSalt;
@@ -53,13 +54,12 @@ public final class DbUser extends DbAbstractPerson implements User {
 	/**
 	 * Table of user.
 	 */
-	private static final io.surati.gap.admin.jooq.generated.tables.AppUser APP_USER =
-		io.surati.gap.admin.jooq.generated.tables.AppUser.APP_USER;
+	private static final AdUser USER = AdUser.AD_USER;
 
 	/**
 	 * Record.
 	 */
-	private final AppUserRecord record;
+	private final AdUserRecord record;
 	
 	/**
 	 * jOOQ database context.
@@ -96,7 +96,7 @@ public final class DbUser extends DbAbstractPerson implements User {
 	public DbUser(final DataSource source, final Long id) {
 		super(source, id);
 		this.ctx = DSL.using(new DefaultConfiguration().set(this.source));
-		this.record = this.ctx.fetchOne(APP_USER, APP_USER.ID.eq(id));
+		this.record = this.ctx.fetchOne(USER, USER.ID.eq(id));
 	}
 	
 	/**
@@ -107,9 +107,9 @@ public final class DbUser extends DbAbstractPerson implements User {
 	private boolean loginIsUsed(String login) {
 		return this.ctx
 			.fetchCount(
-				APP_USER, 
-				APP_USER.LOGIN.eq(login),
-				APP_USER.ID.notEqual(this.id)
+				USER,
+				USER.LOGIN.eq(login),
+				USER.ID.notEqual(this.id)
 			) > 0;
 	}
 	

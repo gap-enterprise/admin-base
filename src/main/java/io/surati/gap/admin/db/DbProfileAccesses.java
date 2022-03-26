@@ -72,7 +72,7 @@ public final class DbProfileAccesses implements ProfileAccesses {
 	                    .sql(
 	                        new Joined(
 	                            " ",
-	                            "SELECT access_id FROM access_profile",
+	                            "SELECT access_id FROM ad_access_profile",
 	            				"WHERE profile_id=?"
 	                        ).toString()
 	                    )
@@ -98,7 +98,7 @@ public final class DbProfileAccesses implements ProfileAccesses {
 				        .sql(
 			        		new Joined(
 		        				" ",
-		        				"SELECT COUNT(*) FROM access_profile",
+		        				"SELECT COUNT(*) FROM ad_access_profile",
 		        				"WHERE access_id=? AND profile_id=?"
 		        			).toString()
 		        		)
@@ -121,7 +121,7 @@ public final class DbProfileAccesses implements ProfileAccesses {
             .sql(
                 new Joined(
                     " ",
-                    "INSERT INTO access_profile",
+                    "INSERT INTO ad_access_profile",
                     "(access_id, profile_id)",
                     "VALUES",
                     "(?, ?)"
@@ -145,7 +145,7 @@ public final class DbProfileAccesses implements ProfileAccesses {
                 .sql(
                     new Joined(
                         " ",
-                        "DELETE FROM access_profile",
+                        "DELETE FROM ad_access_profile",
                         "WHERE access_id=? AND profile_id=?"
                     ).toString()
                 )
@@ -167,7 +167,7 @@ public final class DbProfileAccesses implements ProfileAccesses {
                 .sql(
                     new Joined(
                         " ",
-                        "DELETE FROM access_profile",
+                        "DELETE FROM ad_access_profile",
                         "WHERE profile_id=?"
                     ).toString()
                 )

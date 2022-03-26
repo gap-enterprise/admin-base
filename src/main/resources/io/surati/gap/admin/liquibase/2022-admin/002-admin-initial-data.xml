@@ -17,61 +17,61 @@ SOFTWARE.
 -->
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
   <changeSet author="liquibase (generated)" id="1647897719492-3">
-    <insert tableName="profile">
+    <insert tableName="ad_profile">
       <column name="id" valueNumeric="1"/>
       <column name="name" value="Administrateur"/>
     </insert>
-    <insert tableName="profile">
+    <insert tableName="ad_profile">
       <column name="id" valueNumeric="2"/>
       <column name="name" value="DG"/>
     </insert>
-    <insert tableName="profile">
+    <insert tableName="ad_profile">
       <column name="id" valueNumeric="3"/>
       <column name="name" value="DAF"/>
     </insert>
-    <insert tableName="profile">
+    <insert tableName="ad_profile">
       <column name="id" valueNumeric="4"/>
       <column name="name" value="Trésorière"/>
     </insert>
-    <insert tableName="profile">
+    <insert tableName="ad_profile">
       <column name="id" valueNumeric="5"/>
       <column name="name" value="Comptable"/>
     </insert>
   </changeSet>
   <changeSet author="liquibase (generated)" id="1647897719492-4">
-    <insert tableName="access_profile">
+    <insert tableName="ad_access_profile">
       <column name="access_id" value="VISUALISER_ORDRES_PAIEMENT"/>
       <column name="profile_id" valueNumeric="3"/>
     </insert>
-    <insert tableName="access_profile">
+    <insert tableName="ad_access_profile">
       <column name="access_id" value="VISUALISER_PAIEMENTS"/>
       <column name="profile_id" valueNumeric="3"/>
     </insert>
-    <insert tableName="access_profile">
+    <insert tableName="ad_access_profile">
       <column name="access_id" value="VISUALISER_ORDRES_PAIEMENT"/>
       <column name="profile_id" valueNumeric="4"/>
     </insert>
-    <insert tableName="access_profile">
+    <insert tableName="ad_access_profile">
       <column name="access_id" value="VISUALISER_PAIEMENTS"/>
       <column name="profile_id" valueNumeric="4"/>
     </insert>
-    <insert tableName="access_profile">
+    <insert tableName="ad_access_profile">
       <column name="access_id" value="VISUALISER_ORDRES_PAIEMENT"/>
       <column name="profile_id" valueNumeric="5"/>
     </insert>
-    <insert tableName="access_profile">
+    <insert tableName="ad_access_profile">
       <column name="access_id" value="VISUALISER_PAIEMENTS"/>
       <column name="profile_id" valueNumeric="5"/>
     </insert>
   </changeSet>
   <changeSet author="liquibase (generated)" id="1647897719492-1">
-    <insert tableName="person">
+    <insert tableName="ad_person">
       <column name="id" valueNumeric="1"/>
       <column name="name" value="Administrateur"/>
     </insert>
   </changeSet>
   <changeSet author="liquibase (generated)" id="1647897719492-2">
-    <insert tableName="app_user">
+    <insert tableName="ad_user">
       <column name="id" valueNumeric="1"/>
       <column name="login" value="admin"/>
       <column name="password" value="bgJf2vB2udmDA3yZ/8Sb14AUJ9YhLXevdTTL31DIncQ="/>

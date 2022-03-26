@@ -20,6 +20,8 @@ import com.jcabi.jdbc.JdbcSession;
 import com.jcabi.jdbc.SingleOutcome;
 import io.surati.gap.admin.api.User;
 import io.surati.gap.admin.api.Users;
+import io.surati.gap.admin.jooq.generated.tables.AdPerson;
+import io.surati.gap.admin.jooq.generated.tables.AdUser;
 import io.surati.gap.admin.secure.EncryptedWordImpl;
 import io.surati.gap.admin.secure.GeneratedSalt;
 import io.surati.gap.admin.secure.Salt;
@@ -44,14 +46,12 @@ public final class DbUsers implements Users {
 	/**
 	 * Table of user.
 	 */
-	private static final io.surati.gap.admin.jooq.generated.tables.AppUser APP_USER =
-		io.surati.gap.admin.jooq.generated.tables.AppUser.APP_USER;
+	private static final AdUser USER = AdUser.AD_USER;
 
 	/**
 	 * Table of person.
 	 */
-	private static final io.surati.gap.admin.jooq.generated.tables.Person PERSON =
-		io.surati.gap.admin.jooq.generated.tables.Person.PERSON;
+	private static final AdPerson PERSON = AdPerson.AD_PERSON;
 	
 	/**
 	 * jOOQ database context.
@@ -112,20 +112,20 @@ public final class DbUsers implements Users {
 	
 	@Override
 	public User get(final String login) {
-		if(this.ctx.fetchCount(APP_USER, APP_USER.LOGIN.eq(login)) == 0) {
+		if(this.ctx.fetchCount(USER, USER.LOGIN.eq(login)) == 0) {
 			throw new IllegalArgumentException(
 				String.format("User with login %s not found !", login)
 			);
 		}
 		return new DbUser(
 			this.source,
-			this.ctx.fetchOne(APP_USER, APP_USER.LOGIN.eq(login)).getId()
+			this.ctx.fetchOne(USER, USER.LOGIN.eq(login)).getId()
 		);
 	}
 
 	@Override
 	public User get(final Long id) {
-		if (this.ctx.fetchCount(APP_USER, APP_USER.ID.eq(id)) == 0) {
+		if (this.ctx.fetchCount(USER, USER.ID.eq(id)) == 0) {
 			throw new IllegalArgumentException(
 				String.format("User with ID %s not found !", id)
 			);
@@ -148,11 +148,11 @@ public final class DbUsers implements Users {
 			.returning(PERSON.ID)
 			.fetchOne().getId();
 		final Salt salt = new GeneratedSalt();
-		this.ctx.insertInto(APP_USER)
-			.set(APP_USER.ID, idx)
-			.set(APP_USER.LOGIN, login)
-			.set(APP_USER.PASSWORD, new EncryptedWordImpl(password, salt).value())
-			.set(APP_USER.SALT, salt.value())
+		this.ctx.insertInto(USER)
+			.set(USER.ID, idx)
+			.set(USER.LOGIN, login)
+			.set(USER.PASSWORD, new EncryptedWordImpl(password, salt).value())
+			.set(USER.SALT, salt.value())
 			.execute();
 		return new DbUser(this.source, idx);
 	}
@@ -160,7 +160,7 @@ public final class DbUsers implements Users {
 	@Override
 	public Iterable<User> iterate() {
 		return this.ctx
-			.selectFrom(APP_USER)
+			.selectFrom(USER)
 			.fetch(
 				rec -> new DbUser(
 					this.source, rec.getId()
@@ -172,8 +172,8 @@ public final class DbUsers implements Users {
 	public boolean has(final String login) {
 		return this.ctx
 			.fetchCount(
-				APP_USER, 
-				APP_USER.LOGIN.eq(login)
+				USER,
+				USER.LOGIN.eq(login)
 			) > 0;
 	}
 	
@@ -184,7 +184,7 @@ public final class DbUsers implements Users {
 	            .sql(
 	                new Joined(
 	                    " ",
-	                    "SELECT COUNT(*) FROM app_user",
+	                    "SELECT COUNT(*) FROM AD_USER",
 	                    "WHERE id=? AND (login IN (SELECT author FROM event_log)",
 	                    "OR id IN (SELECT author_id FROM payment_order)",
 	                    "OR id IN (SELECT author_id FROM payment_order_group)",
@@ -204,7 +204,7 @@ public final class DbUsers implements Users {
 		}
 		try (
 			final Connection connection = this.source.getConnection();
-			final PreparedStatement pstmt = connection.prepareStatement("DELETE FROM app_user WHERE id=?");
+			final PreparedStatement pstmt = connection.prepareStatement("DELETE FROM AD_USER WHERE id=?");
 			final PreparedStatement pstmt1 = connection.prepareStatement("DELETE FROM person WHERE id=?");
 		) {
 			pstmt.setLong(1, id);
@@ -219,7 +219,7 @@ public final class DbUsers implements Users {
 	@Override
 	public Long count() {
 		return Long.valueOf(
-			this.ctx.fetchCount(APP_USER)
+			this.ctx.fetchCount(USER)
 		);
 	}
 
