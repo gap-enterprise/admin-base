@@ -4,11 +4,11 @@
 package io.surati.gap.admin.jooq.generated;
 
 
-import io.surati.gap.admin.jooq.generated.tables.AccessProfile;
-import io.surati.gap.admin.jooq.generated.tables.AppUser;
-import io.surati.gap.admin.jooq.generated.tables.EventLog;
-import io.surati.gap.admin.jooq.generated.tables.Person;
-import io.surati.gap.admin.jooq.generated.tables.Profile;
+import io.surati.gap.admin.jooq.generated.tables.AdAccessProfile;
+import io.surati.gap.admin.jooq.generated.tables.AdEventLog;
+import io.surati.gap.admin.jooq.generated.tables.AdPerson;
+import io.surati.gap.admin.jooq.generated.tables.AdProfile;
+import io.surati.gap.admin.jooq.generated.tables.AdUser;
 
 
 /**
@@ -18,27 +18,27 @@ import io.surati.gap.admin.jooq.generated.tables.Profile;
 public class Tables {
 
     /**
-     * The table <code>public.access_profile</code>.
+     * The table <code>public.ad_access_profile</code>.
      */
-    public static final AccessProfile ACCESS_PROFILE = AccessProfile.ACCESS_PROFILE;
+    public static final AdAccessProfile AD_ACCESS_PROFILE = AdAccessProfile.AD_ACCESS_PROFILE;
 
     /**
-     * The table <code>public.app_user</code>.
+     * The table <code>public.ad_event_log</code>.
      */
-    public static final AppUser APP_USER = AppUser.APP_USER;
+    public static final AdEventLog AD_EVENT_LOG = AdEventLog.AD_EVENT_LOG;
 
     /**
-     * The table <code>public.event_log</code>.
+     * The table <code>public.ad_person</code>.
      */
-    public static final EventLog EVENT_LOG = EventLog.EVENT_LOG;
+    public static final AdPerson AD_PERSON = AdPerson.AD_PERSON;
 
     /**
-     * The table <code>public.person</code>.
+     * The table <code>public.ad_profile</code>.
      */
-    public static final Person PERSON = Person.PERSON;
+    public static final AdProfile AD_PROFILE = AdProfile.AD_PROFILE;
 
     /**
-     * The table <code>public.profile</code>.
+     * The table <code>public.ad_user</code>.
      */
-    public static final Profile PROFILE = Profile.PROFILE;
+    public static final AdUser AD_USER = AdUser.AD_USER;
 }

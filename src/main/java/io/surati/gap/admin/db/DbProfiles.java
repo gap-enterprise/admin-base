@@ -61,7 +61,7 @@ public final class DbProfiles implements Profiles {
 	private boolean has(final Long id) {
 		try {
 			return new JdbcSession(this.source)
-				.sql("SELECT COUNT(*) FROM profile WHERE id=?")
+				.sql("SELECT COUNT(*) FROM ad_profile WHERE id=?")
 				.set(id)
 				.select(new SingleOutcome<>(Long.class)) > 0;
 		} catch(SQLException ex) {
@@ -72,7 +72,7 @@ public final class DbProfiles implements Profiles {
 	private boolean has(final String name) {
 		try {
 			return new JdbcSession(this.source)
-				.sql("SELECT COUNT(*) FROM profile WHERE name=?")
+				.sql("SELECT COUNT(*) FROM ad_profile WHERE name=?")
 				.set(name)
 				.select(new SingleOutcome<>(Long.class)) > 0;
 		} catch(SQLException ex) {
@@ -95,7 +95,7 @@ public final class DbProfiles implements Profiles {
 					.sql(
 						new Joined(
 							" ",
-                            "INSERT INTO profile",
+                            "INSERT INTO ad_profile",
                             "(name)",
                             "VALUES",
                             "(?)"
@@ -113,7 +113,7 @@ public final class DbProfiles implements Profiles {
 	public Iterable<Profile> iterate() {		
 		try (
 			final Connection connection = source.getConnection();
-			final PreparedStatement pstmt = connection.prepareStatement("SELECT id FROM profile")
+			final PreparedStatement pstmt = connection.prepareStatement("SELECT id FROM ad_profile")
 		){
 			final Collection<Profile> items = new ArrayList<>();
 			
@@ -136,8 +136,8 @@ public final class DbProfiles implements Profiles {
 		            .sql(
 		                new Joined(
 		                    " ",
-		                    "SELECT COUNT(*) FROM profile",
-		                    "WHERE id=? AND id IN (SELECT profile_id FROM app_user)"
+		                    "SELECT COUNT(*) FROM ad_profile",
+		                    "WHERE id=? AND id IN (SELECT profile_id FROM ad_user)"
 		                ).toString()
 		            )
 		            .set(id)
@@ -150,7 +150,7 @@ public final class DbProfiles implements Profiles {
 		}
 		try (
 			final Connection connection = source.getConnection();
-			final PreparedStatement pstmt = connection.prepareStatement("DELETE FROM profile WHERE id=?");
+			final PreparedStatement pstmt = connection.prepareStatement("DELETE FROM ad_profile WHERE id=?");
 		) {
 			pstmt.setLong(1, id);
 			pstmt.executeUpdate();

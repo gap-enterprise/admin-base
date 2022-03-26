@@ -61,7 +61,7 @@ public final class DbProfile implements Profile {
 	private boolean nameIsUsed(String name) {
 		try (
 				final Connection connection = source.getConnection();
-				final PreparedStatement pstmt = connection.prepareStatement("SELECT COUNT(*) as nb FROM profile WHERE name=? AND id <>?")
+				final PreparedStatement pstmt = connection.prepareStatement("SELECT COUNT(*) as nb FROM ad_profile WHERE name=? AND id <>?")
 			){
 				pstmt.setString(1, name);
 				pstmt.setLong(2, id);
@@ -85,7 +85,7 @@ public final class DbProfile implements Profile {
 	public String name() {
 		try (
 				final Connection connection = source.getConnection();
-				final PreparedStatement pstmt = connection.prepareStatement("SELECT name FROM profile WHERE id=?")
+				final PreparedStatement pstmt = connection.prepareStatement("SELECT name FROM ad_profile WHERE id=?")
 			){
 				pstmt.setLong(1, id);
 				try (final ResultSet rs = pstmt.executeQuery()) {
@@ -109,7 +109,7 @@ public final class DbProfile implements Profile {
 		try (
 			final Connection connection = source.getConnection();
 				
-			final PreparedStatement pstmt = connection.prepareStatement("UPDATE profile SET name=? WHERE id=?")
+			final PreparedStatement pstmt = connection.prepareStatement("UPDATE ad_profile SET name=? WHERE id=?")
 		) {
 			pstmt.setString(1, name);
 			pstmt.setLong(2, id);

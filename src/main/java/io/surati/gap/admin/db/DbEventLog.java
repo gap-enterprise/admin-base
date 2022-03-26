@@ -16,8 +16,8 @@
  */
 package io.surati.gap.admin.db;
 
-import io.surati.gap.admin.jooq.generated.tables.EventLog;
-import io.surati.gap.admin.jooq.generated.tables.records.EventLogRecord;
+import io.surati.gap.admin.jooq.generated.tables.AdEventLog;
+import io.surati.gap.admin.jooq.generated.tables.records.AdEventLogRecord;
 import javax.sql.DataSource;
 import java.time.LocalDateTime;
 import java.util.logging.Level;
@@ -34,13 +34,12 @@ public final class DbEventLog implements io.surati.gap.admin.api.EventLog {
 	/**
 	 * Table of log events.
 	 */
-	private static final EventLog EVENT_LOG =
-		EventLog.EVENT_LOG;
+	private static final AdEventLog EVENT_LOG = AdEventLog.AD_EVENT_LOG;
 
 	/**
 	 * Record.
 	 */
-	private final EventLogRecord record;
+	private final AdEventLogRecord record;
 
 	/**
 	 * Ctor.
