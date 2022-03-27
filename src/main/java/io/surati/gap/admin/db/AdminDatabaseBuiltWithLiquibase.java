@@ -31,7 +31,7 @@ public final class AdminDatabaseBuiltWithLiquibase extends DataSourceWrap {
      * Changelog master file name.
      */
     public static final String CHANGELOG_MASTER_FILENAME =
-        "io/surati/gap/admin/liquibase/db-admin.changelog-master.xml";
+        "io/surati/gap/admin/liquibase/db.changelog-master.xml";
 
     /**
      * Ctor.
