@@ -227,7 +227,7 @@ SOFTWARE.
               </execution>
             </executions>
             <configuration>
-              <mainClass>io.surati.gap.admin.jooq.JooqGen</mainClass>
+              <mainClass>io.surati.gap.admin.base.jooq.JooqGen</mainClass>
             </configuration>
           </plugin>
         </plugins>
@@ -244,7 +244,7 @@ SOFTWARE.
             <configuration>
               <excludes>
                 <exclude>xml:.*</exclude>
-                <exclude>java:./src/main/java/io/surati/gap/admin/module/jooq/generated/*</exclude>
+                <exclude>java:./src/main/java/io/surati/gap/admin/base/jooq/generated/*</exclude>
                 <exclude>duplicatefinder:.*</exclude>
                 <exclude>dependencies:.*</exclude>
               </excludes>
