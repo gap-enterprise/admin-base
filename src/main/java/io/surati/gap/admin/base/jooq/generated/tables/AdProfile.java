@@ -103,12 +103,12 @@ public class AdProfile extends TableImpl<AdProfileRecord> {
 
     @Override
     public UniqueKey<AdProfileRecord> getPrimaryKey() {
-        return Keys.AD_PROFILE_PKEY;
+        return Keys.CONSTRAINT_F;
     }
 
     @Override
     public List<UniqueKey<AdProfileRecord>> getKeys() {
-        return Arrays.<UniqueKey<AdProfileRecord>>asList(Keys.AD_PROFILE_PKEY);
+        return Arrays.<UniqueKey<AdProfileRecord>>asList(Keys.CONSTRAINT_F);
     }
 
     @Override

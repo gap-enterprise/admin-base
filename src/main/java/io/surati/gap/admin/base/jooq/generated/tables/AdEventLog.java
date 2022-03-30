@@ -129,12 +129,12 @@ public class AdEventLog extends TableImpl<AdEventLogRecord> {
 
     @Override
     public UniqueKey<AdEventLogRecord> getPrimaryKey() {
-        return Keys.AD_EVENT_LOG_PKEY;
+        return Keys.CONSTRAINT_BC;
     }
 
     @Override
     public List<UniqueKey<AdEventLogRecord>> getKeys() {
-        return Arrays.<UniqueKey<AdEventLogRecord>>asList(Keys.AD_EVENT_LOG_PKEY);
+        return Arrays.<UniqueKey<AdEventLogRecord>>asList(Keys.CONSTRAINT_BC);
     }
 
     @Override

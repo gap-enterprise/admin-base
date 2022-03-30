@@ -18,12 +18,13 @@ package io.surati.gap.admin.base.db;
 
 import io.surati.gap.admin.base.api.User;
 import io.surati.gap.admin.base.api.Users;
-import javax.sql.DataSource;
+import io.surati.gap.database.utils.extensions.DatabaseSetupExtension;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.hamcrest.core.IsEqual;
-import org.junit.jupiter.api.TestTemplate;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.llorllale.cactoos.matchers.Satisfies;
 
 /**
@@ -31,29 +32,34 @@ import org.llorllale.cactoos.matchers.Satisfies;
  *
  * @since 0.1
  */
-@ExtendWith(DataSourceExtension.class)
 final class DbUsersTest {
+
+	/**
+	 * Database setup extension.
+	 * @checkstyle VisibilityModifierCheck (5 lines)
+	 */
+	@RegisterExtension
+	final DatabaseSetupExtension src = new DatabaseSetupExtension(
+		AdminDatabaseBuiltWithLiquibase.CHANGELOG_MASTER_FILENAME
+	);
 
     /**
      * Users users.
      */
-    private final Users users;
+    private Users users;
     
     /**
      * User admin.
      */
-    private final User admin;
+    private User admin;
 
-	/**
-	 * Ctor.
-	 * @param src Data source
-	 */
-	DbUsersTest(final DataSource src) {
-		this.users = new DbUsers(src);
-		this.admin = new DbUser(src, 1L);
+	@BeforeEach
+	void setUp() {
+		this.users = new DbUsers(this.src);
+		this.admin = new DbUser(this.src, 1L);
 	}
 	
-	@TestTemplate
+	@Test
 	void registersAnUser() {
 		final String name = "Marx Brou";
 		final String login = "brou87";
@@ -67,7 +73,7 @@ final class DbUsersTest {
 		);
 	}
 	
-	@TestTemplate
+	@Test
 	public void checksUserExistenceByItsLogin() {
 		MatcherAssert.assertThat(
 			this.users.has(this.admin.login()),
@@ -75,7 +81,7 @@ final class DbUsersTest {
 		);
 	}
 	
-	@TestTemplate
+	@Test
 	public void getsUserById() {
 		final User user = this.users.get(this.admin.id());
 		MatcherAssert.assertThat(
@@ -88,7 +94,7 @@ final class DbUsersTest {
 		);
 	}
 	
-	@TestTemplate
+	@Test
 	void countsTotalNumberOfUsers() {
 		this.users.register("Mentor", "mentor", "mentorpwd");
 		this.users.register("Guest", "guest", "guestpwd");
@@ -98,7 +104,7 @@ final class DbUsersTest {
         );
 	}
 	
-	@TestTemplate
+	@Test
 	void authenticatesUserWithNonEncryptedPassword() {
 		MatcherAssert.assertThat(
 			this.users.authenticate(this.admin.login(), "admin"),
@@ -106,7 +112,7 @@ final class DbUsersTest {
 		);
 	}
 	
-	@TestTemplate
+	@Test
 	void authenticatesUserWithEncryptedPassword() {
 		MatcherAssert.assertThat(
 			users.authenticatePwdEncrypted(
@@ -117,7 +123,7 @@ final class DbUsersTest {
 		);
 	}
 	
-	@TestTemplate
+	@Test
     void iterate() {
     	final String[] names = {"Administrateur", "Mentor", "Guest"};
 		final String[] logins = {"admin", "mentor", "guest"};

@@ -103,12 +103,12 @@ public class AdPerson extends TableImpl<AdPersonRecord> {
 
     @Override
     public UniqueKey<AdPersonRecord> getPrimaryKey() {
-        return Keys.AD_PERSON_PKEY;
+        return Keys.CONSTRAINT_2;
     }
 
     @Override
     public List<UniqueKey<AdPersonRecord>> getKeys() {
-        return Arrays.<UniqueKey<AdPersonRecord>>asList(Keys.AD_PERSON_PKEY);
+        return Arrays.<UniqueKey<AdPersonRecord>>asList(Keys.CONSTRAINT_2);
     }
 
     @Override

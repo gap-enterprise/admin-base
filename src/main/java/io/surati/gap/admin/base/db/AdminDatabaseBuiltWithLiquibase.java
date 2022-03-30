@@ -19,6 +19,7 @@ package io.surati.gap.admin.base.db;
 import com.lightweight.db.DataSourceWrap;
 import com.lightweight.db.LiquibaseDataSource;
 import javax.sql.DataSource;
+import java.sql.SQLException;
 
 /**
  * Data source decorator that automatically build Admin module database with liquibase.
@@ -31,13 +32,13 @@ public final class AdminDatabaseBuiltWithLiquibase extends DataSourceWrap {
      * Changelog master file name.
      */
     public static final String CHANGELOG_MASTER_FILENAME =
-        "io/surati/gap/admin/base/liquibase/db.changelog-master.xml";
+        "io/surati/gap/admin/base/liquibase/db.postgresql.changelog-master.xml";
 
     /**
      * Ctor.
      * @param src Data source
      */
-    public AdminDatabaseBuiltWithLiquibase(final DataSource src) {
+    public AdminDatabaseBuiltWithLiquibase(final DataSource src) throws SQLException {
         super(
             new LiquibaseDataSource(
                 src, AdminDatabaseBuiltWithLiquibase.CHANGELOG_MASTER_FILENAME

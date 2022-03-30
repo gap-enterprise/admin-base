@@ -19,12 +19,14 @@ package io.surati.gap.admin.base.db;
 import io.surati.gap.admin.base.api.EventLog;
 import io.surati.gap.admin.base.api.EventLogs;
 import io.surati.gap.admin.base.api.Log;
+import io.surati.gap.database.utils.extensions.DatabaseSetupExtension;
 import java.util.logging.Level;
-import javax.sql.DataSource;
 import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.hamcrest.core.IsEqual;
-import org.junit.jupiter.api.TestTemplate;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.llorllale.cactoos.matchers.Satisfies;
 
 
@@ -33,8 +35,16 @@ import org.llorllale.cactoos.matchers.Satisfies;
  *
  * @since 0.1
  */
-@ExtendWith(DataSourceExtension.class)
 final class DbLogTest {
+
+    /**
+     * Database setup extension.
+     * @checkstyle VisibilityModifierCheck (5 lines)
+     */
+    @RegisterExtension
+    final DatabaseSetupExtension src = new DatabaseSetupExtension(
+        AdminDatabaseBuiltWithLiquibase.CHANGELOG_MASTER_FILENAME
+    );
 
     /**
      * Author.
@@ -49,74 +59,87 @@ final class DbLogTest {
     /**
      * Log.
      */
-    final private Log log;
+    private Log log;
 
     /**
      * Log events.
      */
-    final private EventLogs events;
+    private EventLogs events;
 
-    /**
-     * Ctor.
-     * @param src Data source
-     */
-    DbLogTest(final DataSource src){
+    @BeforeEach
+    void setUp() {
         this.log = new DbLog(
-            src,
+            this.src,
             DbLogTest.AUTHOR,
             DbLogTest.IP_ADDRESS
         );
-        this.events = new DbEventLogs(src);
+        this.events = new DbEventLogs(this.src);
     }
 
-    @TestTemplate
+    @Test
     void addInfoEvent() {
         final String message = "I'm connected.";
         this.log.info(message);
         MatcherAssert.assertThat(
-            this.events.get(1L),
-            new Satisfies<>(
-                evt -> evt.author().equals(DbLogTest.AUTHOR) &&
-                    evt.ipAddress().equals(DbLogTest.IP_ADDRESS) &&
-                    evt.message().equals(message) &&
-                    evt.level() == Level.INFO
+            this.events.iterate(),
+            Matchers.allOf(
+                Matchers.iterableWithSize(1),
+                Matchers.everyItem(
+                    new Satisfies<>(
+                        evt -> evt.author().equals(DbLogTest.AUTHOR) &&
+                            evt.ipAddress().equals(DbLogTest.IP_ADDRESS) &&
+                            evt.message().equals(message) &&
+                            evt.level() == Level.INFO
+                    )
+                )
             )
         );
     }
 
-    @TestTemplate
+    @Test
     void addErrorEvent() {
         final String message = "HTTP Error 500";
         final String details = "HTTP Error 500 (Internal Server Error).";
         this.log.error(message, details);
         MatcherAssert.assertThat(
-            this.events.get(1L),
-            new Satisfies<>(
-                evt -> evt.author().equals(DbLogTest.AUTHOR) &&
-                    evt.ipAddress().equals(DbLogTest.IP_ADDRESS) &&
-                    evt.message().equals(message) &&
-                    evt.details().equals(details) &&
-                    evt.level() == Level.SEVERE
+            this.events.iterate(),
+            Matchers.allOf(
+                Matchers.iterableWithSize(1),
+                Matchers.everyItem(
+                    new Satisfies<>(
+                        evt -> evt.author().equals(DbLogTest.AUTHOR) &&
+                            evt.ipAddress().equals(DbLogTest.IP_ADDRESS) &&
+                            evt.message().equals(message) &&
+                            evt.details().equals(details) &&
+                            evt.level() == Level.SEVERE
+                    )
+                )
             )
+
         );
     }
 
-    @TestTemplate
+    @Test
     void addWarningEvent() {
         final String message = "Ouh! The username is invalid.";
         this.log.warning(message);
         MatcherAssert.assertThat(
-            this.events.get(1L),
-            new Satisfies<>(
-                evt -> evt.author().equals(DbLogTest.AUTHOR) &&
-                    evt.ipAddress().equals(DbLogTest.IP_ADDRESS) &&
-                    evt.message().equals(message) &&
-                    evt.level() == Level.WARNING
+            this.events.iterate(),
+            Matchers.allOf(
+                Matchers.iterableWithSize(1),
+                Matchers.everyItem(
+                    new Satisfies<>(
+                        evt -> evt.author().equals(DbLogTest.AUTHOR) &&
+                            evt.ipAddress().equals(DbLogTest.IP_ADDRESS) &&
+                            evt.message().equals(message) &&
+                            evt.level() == Level.WARNING
+                    )
+                )
             )
         );
     }
 
-    @TestTemplate
+    @Test
     void iterate() {
         final String[] messages = { "Welcome admin.", "Something is wrong right now!" };
         final Level[] levels = { Level.INFO, Level.WARNING };
