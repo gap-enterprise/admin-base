@@ -32,7 +32,7 @@ public final class JooqGen {
     public static void main(final String[] args) throws Exception {
         new JooqGenerator(
             AdminDatabaseBuiltWithLiquibase.CHANGELOG_MASTER_FILENAME,
-            "io.surati.gap.admin.jooq.generated",
+            "io.surati.gap.admin.base.jooq.generated",
             "ad_(.*)",
             "src/main/java"
         ).start();

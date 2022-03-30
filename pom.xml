@@ -72,6 +72,12 @@ SOFTWARE.
       <version>5.8.2</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.junit.vintage</groupId>
+      <artifactId>junit-vintage-engine</artifactId>
+      <version>5.8.2</version>
+      <scope>test</scope>
+    </dependency>
     <!--
       Use 1.4.x because there is an error on 2.x.x.
       See https://stackoverflow.com/questions/70696570/h2-database-engine-version-upgrade-from-1-4-182-to-2-0-x-fails-with-caused-by-o
@@ -117,7 +123,7 @@ SOFTWARE.
     <dependency>
       <groupId>com.baudoliver7</groupId>
       <artifactId>lightweight-db</artifactId>
-      <version>0.4</version>
+      <version>0.4.1</version>
     </dependency>
     <dependency>
       <groupId>org.cactoos</groupId>
@@ -143,7 +149,7 @@ SOFTWARE.
     <dependency>
       <groupId>io.surati.gap</groupId>
       <artifactId>database-utils</artifactId>
-      <version>0.2</version>
+      <version>0.4.0</version>
     </dependency>
     <dependency>
       <groupId>com.zaxxer</groupId>
@@ -165,6 +171,17 @@ SOFTWARE.
       <groupId>org.jooq</groupId>
       <artifactId>jooq-codegen</artifactId>
       <version>${jooq.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.testcontainers</groupId>
+      <artifactId>oracle-xe</artifactId>
+      <version>1.16.3</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.oracle.database.jdbc</groupId>
+      <artifactId>ojdbc8</artifactId>
+      <version>21.5.0.0</version>
     </dependency>
   </dependencies>
   <build>
@@ -249,6 +266,28 @@ SOFTWARE.
                 <exclude>dependencies:.*</exclude>
               </excludes>
             </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>itcase</id>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-failsafe-plugin</artifactId>
+            <configuration>
+              <parallel>none</parallel>
+              <trimStackTrace>false</trimStackTrace>
+            </configuration>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>integration-test</goal>
+                  <goal>verify</goal>
+                </goals>
+              </execution>
+            </executions>
           </plugin>
         </plugins>
       </build>

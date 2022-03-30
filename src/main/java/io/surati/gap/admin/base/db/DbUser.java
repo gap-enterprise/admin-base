@@ -179,9 +179,6 @@ public final class DbUser extends DbAbstractPerson implements User {
 
 	@Override
 	public Profile profile() {
-		if (this.record.getProfileId() == null) {
-			throw new IllegalArgumentException("L'utilisateur n'a pas de profil !");
-		}
 		return new DbProfile(this.source, this.record.getProfileId());
 	}
 

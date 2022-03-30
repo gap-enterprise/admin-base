@@ -44,6 +44,11 @@ import org.jooq.impl.DefaultConfiguration;
 public final class DbUsers implements Users {
 
 	/**
+	 * Simple user ID.
+	 */
+	private static final Long SIMPLE_USER_PROFILE_ID = 6L;
+
+	/**
 	 * Table of user.
 	 */
 	private static final AdUser USER = AdUser.AD_USER;
@@ -153,6 +158,7 @@ public final class DbUsers implements Users {
 			.set(USER.LOGIN, login)
 			.set(USER.PASSWORD, new EncryptedWordImpl(password, salt).value())
 			.set(USER.SALT, salt.value())
+			.set(USER.PROFILE_ID, DbUsers.SIMPLE_USER_PROFILE_ID)
 			.execute();
 		return new DbUser(this.source, idx);
 	}

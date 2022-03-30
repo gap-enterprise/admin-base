@@ -6,9 +6,9 @@ package io.surati.gap.admin.base.jooq.generated;
 
 import io.surati.gap.admin.base.jooq.generated.tables.AdAccessProfile;
 import io.surati.gap.admin.base.jooq.generated.tables.AdEventLog;
+import io.surati.gap.admin.base.jooq.generated.tables.AdPerson;
 import io.surati.gap.admin.base.jooq.generated.tables.AdProfile;
 import io.surati.gap.admin.base.jooq.generated.tables.AdUser;
-import io.surati.gap.admin.base.jooq.generated.tables.AdPerson;
 
 
 /**

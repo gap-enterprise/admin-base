@@ -6,9 +6,9 @@ package io.surati.gap.admin.base.jooq.generated;
 
 import io.surati.gap.admin.base.jooq.generated.tables.AdAccessProfile;
 import io.surati.gap.admin.base.jooq.generated.tables.AdEventLog;
+import io.surati.gap.admin.base.jooq.generated.tables.AdPerson;
 import io.surati.gap.admin.base.jooq.generated.tables.AdProfile;
 import io.surati.gap.admin.base.jooq.generated.tables.AdUser;
-import io.surati.gap.admin.base.jooq.generated.tables.AdPerson;
 import io.surati.gap.admin.base.jooq.generated.tables.records.AdAccessProfileRecord;
 import io.surati.gap.admin.base.jooq.generated.tables.records.AdEventLogRecord;
 import io.surati.gap.admin.base.jooq.generated.tables.records.AdPersonRecord;
@@ -33,17 +33,18 @@ public class Keys {
     // UNIQUE and PRIMARY KEY definitions
     // -------------------------------------------------------------------------
 
-    public static final UniqueKey<AdAccessProfileRecord> AD_ACCESS_PROFILE_PKEY = Internal.createUniqueKey(AdAccessProfile.AD_ACCESS_PROFILE, DSL.name("ad_access_profile_pkey"), new TableField[] { AdAccessProfile.AD_ACCESS_PROFILE.ACCESS_ID, AdAccessProfile.AD_ACCESS_PROFILE.PROFILE_ID }, true);
-    public static final UniqueKey<AdEventLogRecord> AD_EVENT_LOG_PKEY = Internal.createUniqueKey(AdEventLog.AD_EVENT_LOG, DSL.name("ad_event_log_pkey"), new TableField[] { AdEventLog.AD_EVENT_LOG.ID }, true);
-    public static final UniqueKey<AdPersonRecord> AD_PERSON_PKEY = Internal.createUniqueKey(AdPerson.AD_PERSON, DSL.name("ad_person_pkey"), new TableField[] { AdPerson.AD_PERSON.ID }, true);
-    public static final UniqueKey<AdProfileRecord> AD_PROFILE_PKEY = Internal.createUniqueKey(AdProfile.AD_PROFILE, DSL.name("ad_profile_pkey"), new TableField[] { AdProfile.AD_PROFILE.ID }, true);
-    public static final UniqueKey<AdUserRecord> AD_USER_PKEY = Internal.createUniqueKey(AdUser.AD_USER, DSL.name("ad_user_pkey"), new TableField[] { AdUser.AD_USER.ID }, true);
+    public static final UniqueKey<AdAccessProfileRecord> CONSTRAINT_6 = Internal.createUniqueKey(AdAccessProfile.AD_ACCESS_PROFILE, DSL.name("CONSTRAINT_6"), new TableField[] { AdAccessProfile.AD_ACCESS_PROFILE.ACCESS_ID, AdAccessProfile.AD_ACCESS_PROFILE.PROFILE_ID }, true);
+    public static final UniqueKey<AdEventLogRecord> CONSTRAINT_BC = Internal.createUniqueKey(AdEventLog.AD_EVENT_LOG, DSL.name("CONSTRAINT_BC"), new TableField[] { AdEventLog.AD_EVENT_LOG.ID }, true);
+    public static final UniqueKey<AdPersonRecord> CONSTRAINT_2 = Internal.createUniqueKey(AdPerson.AD_PERSON, DSL.name("CONSTRAINT_2"), new TableField[] { AdPerson.AD_PERSON.ID }, true);
+    public static final UniqueKey<AdProfileRecord> CONSTRAINT_F = Internal.createUniqueKey(AdProfile.AD_PROFILE, DSL.name("CONSTRAINT_F"), new TableField[] { AdProfile.AD_PROFILE.ID }, true);
+    public static final UniqueKey<AdUserRecord> CONSTRAINT_B = Internal.createUniqueKey(AdUser.AD_USER, DSL.name("CONSTRAINT_B"), new TableField[] { AdUser.AD_USER.ID }, true);
+    public static final UniqueKey<AdUserRecord> CONSTRAINT_BB = Internal.createUniqueKey(AdUser.AD_USER, DSL.name("CONSTRAINT_BB"), new TableField[] { AdUser.AD_USER.LOGIN }, true);
 
     // -------------------------------------------------------------------------
     // FOREIGN KEY definitions
     // -------------------------------------------------------------------------
 
-    public static final ForeignKey<AdAccessProfileRecord, AdProfileRecord> AD_ACCESS_PROFILE_PROFILE_ID_FKEY = Internal.createForeignKey(AdAccessProfile.AD_ACCESS_PROFILE, DSL.name("ad_access_profile_profile_id_fkey"), new TableField[] { AdAccessProfile.AD_ACCESS_PROFILE.PROFILE_ID }, Keys.AD_PROFILE_PKEY, new TableField[] { AdProfile.AD_PROFILE.ID }, true);
-    public static final ForeignKey<AdUserRecord, AdProfileRecord> AD_APP_USER_PROFILE_ID_FKEY = Internal.createForeignKey(AdUser.AD_USER, DSL.name("ad_app_user_profile_id_fkey"), new TableField[] { AdUser.AD_USER.PROFILE_ID }, Keys.AD_PROFILE_PKEY, new TableField[] { AdProfile.AD_PROFILE.ID }, true);
-    public static final ForeignKey<AdUserRecord, AdPersonRecord> AD_USER_ID_FKEY = Internal.createForeignKey(AdUser.AD_USER, DSL.name("ad_user_id_fkey"), new TableField[] { AdUser.AD_USER.ID }, Keys.AD_PERSON_PKEY, new TableField[] { AdPerson.AD_PERSON.ID }, true);
+    public static final ForeignKey<AdAccessProfileRecord, AdProfileRecord> AD_ACCESS_PROFILE_PROFILE_ID_FKEY = Internal.createForeignKey(AdAccessProfile.AD_ACCESS_PROFILE, DSL.name("ad_access_profile_profile_id_fkey"), new TableField[] { AdAccessProfile.AD_ACCESS_PROFILE.PROFILE_ID }, Keys.CONSTRAINT_F, new TableField[] { AdProfile.AD_PROFILE.ID }, true);
+    public static final ForeignKey<AdUserRecord, AdPersonRecord> AD_USER_ID_FKEY = Internal.createForeignKey(AdUser.AD_USER, DSL.name("ad_user_id_fkey"), new TableField[] { AdUser.AD_USER.ID }, Keys.CONSTRAINT_2, new TableField[] { AdPerson.AD_PERSON.ID }, true);
+    public static final ForeignKey<AdUserRecord, AdProfileRecord> AD_USER_PROFILE_ID_FKEY = Internal.createForeignKey(AdUser.AD_USER, DSL.name("ad_user_profile_id_fkey"), new TableField[] { AdUser.AD_USER.PROFILE_ID }, Keys.CONSTRAINT_F, new TableField[] { AdProfile.AD_PROFILE.ID }, true);
 }

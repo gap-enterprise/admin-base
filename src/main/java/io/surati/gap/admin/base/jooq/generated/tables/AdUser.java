@@ -75,7 +75,7 @@ public class AdUser extends TableImpl<AdUserRecord> {
     /**
      * The column <code>public.ad_user.profile_id</code>.
      */
-    public final TableField<AdUserRecord, Long> PROFILE_ID = createField(DSL.name("profile_id"), SQLDataType.BIGINT, this, "");
+    public final TableField<AdUserRecord, Long> PROFILE_ID = createField(DSL.name("profile_id"), SQLDataType.BIGINT.nullable(false), this, "");
 
     private AdUser(Name alias, Table<AdUserRecord> aliased) {
         this(alias, aliased, null);
@@ -117,17 +117,17 @@ public class AdUser extends TableImpl<AdUserRecord> {
 
     @Override
     public UniqueKey<AdUserRecord> getPrimaryKey() {
-        return Keys.AD_USER_PKEY;
+        return Keys.CONSTRAINT_B;
     }
 
     @Override
     public List<UniqueKey<AdUserRecord>> getKeys() {
-        return Arrays.<UniqueKey<AdUserRecord>>asList(Keys.AD_USER_PKEY);
+        return Arrays.<UniqueKey<AdUserRecord>>asList(Keys.CONSTRAINT_B, Keys.CONSTRAINT_BB);
     }
 
     @Override
     public List<ForeignKey<AdUserRecord, ?>> getReferences() {
-        return Arrays.<ForeignKey<AdUserRecord, ?>>asList(Keys.AD_USER_ID_FKEY, Keys.AD_APP_USER_PROFILE_ID_FKEY);
+        return Arrays.<ForeignKey<AdUserRecord, ?>>asList(Keys.AD_USER_ID_FKEY, Keys.AD_USER_PROFILE_ID_FKEY);
     }
 
     private transient AdPerson _adPerson;
@@ -142,7 +142,7 @@ public class AdUser extends TableImpl<AdUserRecord> {
 
     public AdProfile adProfile() {
         if (_adProfile == null)
-            _adProfile = new AdProfile(this, Keys.AD_APP_USER_PROFILE_ID_FKEY);
+            _adProfile = new AdProfile(this, Keys.AD_USER_PROFILE_ID_FKEY);
 
         return _adProfile;
     }

@@ -97,12 +97,12 @@ public class AdAccessProfile extends TableImpl<AdAccessProfileRecord> {
 
     @Override
     public UniqueKey<AdAccessProfileRecord> getPrimaryKey() {
-        return Keys.AD_ACCESS_PROFILE_PKEY;
+        return Keys.CONSTRAINT_6;
     }
 
     @Override
     public List<UniqueKey<AdAccessProfileRecord>> getKeys() {
-        return Arrays.<UniqueKey<AdAccessProfileRecord>>asList(Keys.AD_ACCESS_PROFILE_PKEY);
+        return Arrays.<UniqueKey<AdAccessProfileRecord>>asList(Keys.CONSTRAINT_6);
     }
 
     @Override

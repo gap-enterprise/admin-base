@@ -17,36 +17,42 @@
 package io.surati.gap.admin.base.db;
 
 import io.surati.gap.admin.base.api.User;
-import javax.sql.DataSource;
+import io.surati.gap.database.utils.extensions.DatabaseSetupExtension;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.jupiter.api.TestTemplate;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 
 /**
  * Test case for {@link DbUser}.
  *
  * @since 0.1
  */
-@ExtendWith(DataSourceExtension.class)
 final class DbUserTest {
+
+    /**
+     * Database setup extension.
+     * @checkstyle VisibilityModifierCheck (5 lines)
+     */
+    @RegisterExtension
+    final DatabaseSetupExtension src = new DatabaseSetupExtension(
+        AdminDatabaseBuiltWithLiquibase.CHANGELOG_MASTER_FILENAME
+    );
 
     /**
      * User to test.
      */
-    private final User user;
+    private User user;
 
-    /**
-     * Ctor.
-     * @param src Data source
-     */
-    DbUserTest(final DataSource src) {
-        this.user = new DbUsers(src).register(
+    @BeforeEach
+    void setUp() {
+        this.user = new DbUsers(this.src).register(
             "Olivier B. OURA", "baudoliver7", "gap"
         );
     }
 
-    @TestTemplate
+    @Test
     void blocksUser() {
         this.user.block(true);
         MatcherAssert.assertThat(
