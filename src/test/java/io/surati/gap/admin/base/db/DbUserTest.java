@@ -16,6 +16,7 @@
  */
 package io.surati.gap.admin.base.db;
 
+import io.surati.gap.admin.base.api.Profile;
 import io.surati.gap.admin.base.api.User;
 import io.surati.gap.database.utils.extensions.DatabaseSetupExtension;
 import org.hamcrest.MatcherAssert;
@@ -65,6 +66,16 @@ final class DbUserTest {
             "User should be unblocked.",
             this.user.blocked(),
             Matchers.is(false)
+        );
+    }
+
+    @Test
+    void changesProfile() {
+        final Profile dg = new DbProfile(this.src, 2L);
+        user.assign(dg);
+        MatcherAssert.assertThat(
+            user.profile().id(),
+            Matchers.equalTo(dg.id())
         );
     }
 }

@@ -8,7 +8,7 @@ name: jOOQ Generation
     branches:
       - master
 jobs:
-  maven-build:
+  jooq-gen:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:

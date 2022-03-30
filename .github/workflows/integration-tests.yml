@@ -8,7 +8,7 @@ name: Integation tests
     branches:
       - master
 jobs:
-  maven-build:
+  it-run:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
