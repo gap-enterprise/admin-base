@@ -16,6 +16,7 @@
  */
 package io.surati.gap.admin.base.db;
 
+import com.lightweight.db.EmbeddedPostgreSQLDataSource;
 import io.surati.gap.admin.base.api.EventLog;
 import io.surati.gap.admin.base.api.EventLogs;
 import io.surati.gap.admin.base.api.Log;
@@ -43,6 +44,7 @@ final class DbLogTest {
      */
     @RegisterExtension
     final DatabaseSetupExtension src = new DatabaseSetupExtension(
+        new EmbeddedPostgreSQLDataSource(),
         AdminDatabaseBuiltWithLiquibase.CHANGELOG_MASTER_FILENAME
     );
 

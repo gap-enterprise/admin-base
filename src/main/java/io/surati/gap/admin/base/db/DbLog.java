@@ -18,15 +18,13 @@ package io.surati.gap.admin.base.db;
 
 import io.surati.gap.admin.base.api.EventLog;
 import io.surati.gap.admin.base.api.Log;
-import javax.sql.DataSource;
+import io.surati.gap.admin.base.db.jooq.generated.tables.AdEventLog;
+import io.surati.gap.database.utils.jooq.JooqContext;
 import java.time.LocalDateTime;
 import java.util.logging.Level;
-
-import io.surati.gap.admin.base.jooq.generated.tables.AdEventLog;
+import javax.sql.DataSource;
 import org.cactoos.iterable.IterableOf;
 import org.jooq.DSLContext;
-import org.jooq.impl.DSL;
-import org.jooq.impl.DefaultConfiguration;
 
 /**
  * Log that stores events in database.
@@ -68,7 +66,7 @@ public final class DbLog implements Log {
 	 */
 	public DbLog(final DataSource source, final String author, final String ipaddress) {
 		this.source = source;
-		this.ctx = DSL.using(new DefaultConfiguration().set(this.source));
+		this.ctx = new JooqContext(this.source);
 		this.author = author;
 		this.ipaddress = ipaddress;
 	}

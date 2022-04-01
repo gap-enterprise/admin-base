@@ -14,10 +14,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package io.surati.gap.admin.base.jooq;
+package io.surati.gap.admin.base.db.jooq;
 
+import com.minlessika.utils.ConsoleArgs;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import io.surati.gap.admin.base.db.AdminDatabaseBuiltWithLiquibase;
 import io.surati.gap.database.utils.jooq.JooqGenerator;
+import java.util.Map;
 
 /**
  * Class used to generate jOOQ classes.
@@ -30,9 +34,17 @@ public final class JooqGen {
      * @param args Arguments
      */
     public static void main(final String[] args) throws Exception {
+        final Map<String, String> map = new ConsoleArgs("--", args).asMap();
+        final HikariConfig config = new HikariConfig();
+        config.setDriverClassName(map.get("driver"));
+        config.setJdbcUrl(map.get("url"));
+        config.setUsername(map.get("user"));
+        config.setPassword(map.get("password"));
         new JooqGenerator(
-            AdminDatabaseBuiltWithLiquibase.CHANGELOG_MASTER_FILENAME,
-            "io.surati.gap.admin.base.jooq.generated",
+            new AdminDatabaseBuiltWithLiquibase(
+                new HikariDataSource(config)
+            ),
+            "io.surati.gap.admin.base.db.jooq.generated",
             "ad_(.*)",
             "src/main/java"
         ).start();

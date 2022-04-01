@@ -1,6 +1,6 @@
 package io.surati.gap.admin.base.db;
 
-import com.lightweight.db.LiquibaseDataSource;
+import com.baudoliver7.easy.liquibase4j.gen.LiquibaseDataSource;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import java.sql.SQLException;

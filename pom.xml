@@ -78,6 +78,11 @@ SOFTWARE.
       <version>5.8.2</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+      <version>42.3.3</version>
+    </dependency>
     <!--
       Use 1.4.x because there is an error on 2.x.x.
       See https://stackoverflow.com/questions/70696570/h2-database-engine-version-upgrade-from-1-4-182-to-2-0-x-fails-with-caused-by-o
@@ -123,7 +128,7 @@ SOFTWARE.
     <dependency>
       <groupId>com.baudoliver7</groupId>
       <artifactId>lightweight-db</artifactId>
-      <version>0.4.1</version>
+      <version>0.5.1</version>
     </dependency>
     <dependency>
       <groupId>org.cactoos</groupId>
@@ -149,13 +154,12 @@ SOFTWARE.
     <dependency>
       <groupId>io.surati.gap</groupId>
       <artifactId>database-utils</artifactId>
-      <version>0.4.0</version>
+      <version>0.5.0</version>
     </dependency>
     <dependency>
       <groupId>com.zaxxer</groupId>
       <artifactId>HikariCP</artifactId>
       <version>4.0.3</version>
-      <scope>runtime</scope>
     </dependency>
     <dependency>
       <groupId>org.jooq</groupId>
@@ -182,6 +186,21 @@ SOFTWARE.
       <groupId>com.oracle.database.jdbc</groupId>
       <artifactId>ojdbc8</artifactId>
       <version>21.5.0.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.baudoliver7</groupId>
+      <artifactId>easy-liquibase4j</artifactId>
+      <version>0.1.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.baudoliver7</groupId>
+      <artifactId>jdbc-toolset</artifactId>
+      <version>0.1.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.baudoliver7</groupId>
+      <artifactId>takes-utils</artifactId>
+      <version>0.3.1</version>
     </dependency>
   </dependencies>
   <build>
@@ -244,7 +263,14 @@ SOFTWARE.
               </execution>
             </executions>
             <configuration>
-              <mainClass>io.surati.gap.admin.base.jooq.JooqGen</mainClass>
+              <mainClass>io.surati.gap.admin.base.db.jooq.JooqGen</mainClass>
+              <cleanupDaemonThreads>false</cleanupDaemonThreads>
+              <arguments>
+                <argument>--driver=${db.driver}</argument>
+                <argument>--url=${db.url}</argument>
+                <argument>--user=${db.user}</argument>
+                <argument>--password=${db.password}</argument>
+              </arguments>
             </configuration>
           </plugin>
         </plugins>

@@ -16,10 +16,9 @@
  */
 package io.surati.gap.admin.base.db;
 
-import com.lightweight.db.DataSourceWrap;
-import com.lightweight.db.LiquibaseDataSource;
+import com.baudoliver7.easy.liquibase4j.gen.UncheckedLiquibaseDataSource;
+import com.baudoliver7.jdbc.toolset.wrapper.DataSourceWrap;
 import javax.sql.DataSource;
-import java.sql.SQLException;
 
 /**
  * Data source decorator that automatically build Admin module database with liquibase.
@@ -38,9 +37,9 @@ public final class AdminDatabaseBuiltWithLiquibase extends DataSourceWrap {
      * Ctor.
      * @param src Data source
      */
-    public AdminDatabaseBuiltWithLiquibase(final DataSource src) throws SQLException {
+    public AdminDatabaseBuiltWithLiquibase(final DataSource src) {
         super(
-            new LiquibaseDataSource(
+            new UncheckedLiquibaseDataSource(
                 src, AdminDatabaseBuiltWithLiquibase.CHANGELOG_MASTER_FILENAME
             )
         );

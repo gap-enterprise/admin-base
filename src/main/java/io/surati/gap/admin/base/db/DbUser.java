@@ -19,14 +19,13 @@ package io.surati.gap.admin.base.db;
 import com.google.common.base.Objects;
 import io.surati.gap.admin.base.api.Profile;
 import io.surati.gap.admin.base.api.User;
-import io.surati.gap.admin.base.jooq.generated.tables.AdUser;
-import io.surati.gap.admin.base.jooq.generated.tables.records.AdUserRecord;
+import io.surati.gap.admin.base.db.jooq.generated.tables.AdUser;
+import io.surati.gap.admin.base.db.jooq.generated.tables.records.AdUserRecord;
 import io.surati.gap.admin.base.secure.ConstantSalt;
 import io.surati.gap.admin.base.secure.EncryptedWordImpl;
 import io.surati.gap.admin.base.secure.GeneratedSalt;
 import io.surati.gap.admin.base.secure.Salt;
-
-import javax.sql.DataSource;
+import io.surati.gap.database.utils.jooq.JooqContext;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -37,13 +36,12 @@ import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Stream;
+import javax.sql.DataSource;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.util.IOUtils;
 import org.jooq.DSLContext;
-import org.jooq.impl.DSL;
-import org.jooq.impl.DefaultConfiguration;
 
 /**
  * User in database.
@@ -96,7 +94,7 @@ public final class DbUser extends DbAbstractPerson implements User {
 	 */
 	public DbUser(final DataSource source, final Long id) {
 		super(source, id);
-		this.ctx = DSL.using(new DefaultConfiguration().set(this.source));
+		this.ctx = new JooqContext(this.source);
 		this.record = this.ctx.fetchOne(USER, USER.ID.eq(id));
 	}
 	

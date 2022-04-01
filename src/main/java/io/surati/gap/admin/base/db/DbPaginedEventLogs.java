@@ -18,18 +18,17 @@ package io.surati.gap.admin.base.db;
 
 import io.surati.gap.admin.base.api.EventLog;
 import io.surati.gap.admin.base.api.EventLogs;
-import javax.sql.DataSource;
+import io.surati.gap.admin.base.db.jooq.generated.tables.AdEventLog;
+import io.surati.gap.commons.utils.time.Period;
+import io.surati.gap.database.utils.jooq.JooqContext;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-
-import io.surati.gap.admin.base.jooq.generated.tables.AdEventLog;
-import io.surati.gap.commons.utils.time.Period;
+import javax.sql.DataSource;
 import org.apache.commons.lang3.StringUtils;
 import org.jooq.Condition;
 import org.jooq.DSLContext;
 import org.jooq.impl.DSL;
-import org.jooq.impl.DefaultConfiguration;
 
 /**
  * Paginated log events coming from database.
@@ -86,7 +85,7 @@ public final class DbPaginedEventLogs implements EventLogs {
 		final String filter, final Period period
 	) {
 		this.source = source;
-		this.ctx = DSL.using(new DefaultConfiguration().set(this.source));
+		this.ctx = new JooqContext(this.source);
 		this.nbperpage = nbperpage;
 		this.page = page;
 		this.filter = filter;
