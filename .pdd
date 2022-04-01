@@ -2,6 +2,7 @@
 --verbose
 --exclude logo.png
 --exclude target/**/*
+--exclude src/main/java/io/surati/gap/admin/base/db/jooq/generated/**/*
 --exclude src/main/resources/**/*
 --exclude src/test/resources/**/*
 --exclude .idea/**/*

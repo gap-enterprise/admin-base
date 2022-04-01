@@ -14,8 +14,8 @@
 Base module for `Administration`
 It contains all business objects needed to manage users, profiles, access rights etc.
 
-# Generate jOOQ classes
-After adding new files to liquibase folder, we have to run the maven profile `jooqGen` like this:
+# How to generate `jOOQ` classes
+Run this maven command:
 ```shell
-mvn clean compile -PjooqGen
+mvn clean compile -PjooqGen -Ddb.driver=org.postgresql.Driver -Ddb.url=jdbc:postgresql://127.0.0.1:5070/db_gap -Ddb.user=gap -Ddb.password=admin
 ```

@@ -16,6 +16,7 @@
  */
 package io.surati.gap.admin.base.db;
 
+import com.lightweight.db.EmbeddedPostgreSQLDataSource;
 import io.surati.gap.admin.base.api.User;
 import io.surati.gap.admin.base.api.Users;
 import io.surati.gap.database.utils.extensions.DatabaseSetupExtension;
@@ -40,6 +41,7 @@ final class DbUsersTest {
 	 */
 	@RegisterExtension
 	final DatabaseSetupExtension src = new DatabaseSetupExtension(
+		new EmbeddedPostgreSQLDataSource(),
 		AdminDatabaseBuiltWithLiquibase.CHANGELOG_MASTER_FILENAME
 	);
 

@@ -20,12 +20,13 @@ import com.jcabi.jdbc.JdbcSession;
 import com.jcabi.jdbc.SingleOutcome;
 import io.surati.gap.admin.base.api.User;
 import io.surati.gap.admin.base.api.Users;
-import io.surati.gap.admin.base.jooq.generated.tables.AdPerson;
-import io.surati.gap.admin.base.jooq.generated.tables.AdUser;
+import io.surati.gap.admin.base.db.jooq.generated.tables.AdPerson;
+import io.surati.gap.admin.base.db.jooq.generated.tables.AdUser;
 import io.surati.gap.admin.base.secure.EncryptedWordImpl;
 import io.surati.gap.admin.base.secure.GeneratedSalt;
 import io.surati.gap.admin.base.secure.Salt;
 import io.surati.gap.database.utils.exceptions.DatabaseException;
+import io.surati.gap.database.utils.jooq.JooqContext;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -33,8 +34,6 @@ import javax.sql.DataSource;
 import org.apache.commons.lang3.StringUtils;
 import org.cactoos.text.Joined;
 import org.jooq.DSLContext;
-import org.jooq.impl.DSL;
-import org.jooq.impl.DefaultConfiguration;
 
 /**
  * Users in Database.
@@ -74,7 +73,7 @@ public final class DbUsers implements Users {
 	 */
 	public DbUsers(final DataSource source) {
 		this.source = source;
-		this.ctx = DSL.using(new DefaultConfiguration().set(this.source));
+		this.ctx = new JooqContext(this.source);
 	}
 	
 	@Override
