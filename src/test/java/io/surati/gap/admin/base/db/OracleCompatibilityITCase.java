@@ -10,8 +10,8 @@ import org.hamcrest.core.IsEqual;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.ClassRule;
+import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.jupiter.api.Disabled;
 import org.testcontainers.containers.OracleContainer;
 
 /**
@@ -19,7 +19,7 @@ import org.testcontainers.containers.OracleContainer;
  *
  * @since 0.4
  */
-@Disabled
+@Ignore("Failed to initialize pool: Listener refused the connection with the following error")
 public final class OracleCompatibilityITCase {
 
     /**
