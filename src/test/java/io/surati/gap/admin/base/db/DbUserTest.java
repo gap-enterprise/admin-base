@@ -39,8 +39,9 @@ final class DbUserTest {
      */
     @RegisterExtension
     final DatabaseSetupExtension src = new DatabaseSetupExtension(
-        new EmbeddedPostgreSQLDataSource(),
-        AdminDatabaseBuiltWithLiquibase.CHANGELOG_MASTER_FILENAME
+        new AdminDatabaseBuiltWithLiquibase(
+            new EmbeddedPostgreSQLDataSource()
+        )
     );
 
     /**
@@ -51,7 +52,7 @@ final class DbUserTest {
     @BeforeEach
     void setUp() {
         this.user = new DbUsers(this.src).register(
-            "Olivier B. OURA", "baudoliver7", "gap"
+            "Olivier B. OURA", "baudoliver7", "gap", new DbProfile(this.src, 1L)
         );
     }
 
@@ -73,11 +74,11 @@ final class DbUserTest {
 
     @Test
     void changesProfile() {
-        final Profile dg = new DbProfile(this.src, 2L);
-        user.assign(dg);
+        final Profile profile = new DbProfile(this.src, 1L);
+        user.assign(profile);
         MatcherAssert.assertThat(
             user.profile().id(),
-            Matchers.equalTo(dg.id())
+            Matchers.equalTo(profile.id())
         );
     }
 }

@@ -16,41 +16,24 @@
  */
 package io.surati.gap.admin.base.db;
 
-import com.baudoliver7.easy.liquibase4j.gen.UncheckedLiquibaseDataSource;
 import com.baudoliver7.jdbc.toolset.wrapper.DataSourceWrap;
 import javax.sql.DataSource;
 
 /**
- * Data source decorator that automatically build Admin module database with liquibase.
+ * Database with demo data.
  *
- * @since 0.1
+ * @since 0.4
  */
-public final class AdminDatabaseBuiltWithLiquibase extends DataSourceWrap {
-
-    /**
-     * Changelog master file name.
-     */
-    private static final String CHANGELOG_MASTER_FILENAME =
-        "io/surati/gap/admin/base/liquibase/db.postgresql.changelog-master.xml";
+public final class AdminDemoDatabase extends DataSourceWrap {
 
     /**
      * Ctor.
      * @param src Data source
      */
-    public AdminDatabaseBuiltWithLiquibase(final DataSource src) {
-        this(src, "prod");
-    }
-
-    /**
-     * Ctor.
-     * @param src Data source
-     * @param contexts Contexts
-     */
-    public AdminDatabaseBuiltWithLiquibase(final DataSource src, final String contexts) {
+    public AdminDemoDatabase(final DataSource src) {
         super(
-            new UncheckedLiquibaseDataSource(
-                src, AdminDatabaseBuiltWithLiquibase.CHANGELOG_MASTER_FILENAME,
-                contexts
+            new AdminDatabaseBuiltWithLiquibase(
+                src, "prod AND demo"
             )
         );
     }

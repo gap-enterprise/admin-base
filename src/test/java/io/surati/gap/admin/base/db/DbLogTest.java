@@ -44,8 +44,9 @@ final class DbLogTest {
      */
     @RegisterExtension
     final DatabaseSetupExtension src = new DatabaseSetupExtension(
-        new EmbeddedPostgreSQLDataSource(),
-        AdminDatabaseBuiltWithLiquibase.CHANGELOG_MASTER_FILENAME
+        new AdminDatabaseBuiltWithLiquibase(
+            new EmbeddedPostgreSQLDataSource()
+        )
     );
 
     /**

@@ -16,7 +16,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 -->
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
-  <changeSet author="baudoliver7" id="001">
+  <changeSet author="baudoliver7" id="001" context="prod">
     <sql>
       CREATE TABLE ad_profile (
         id bigserial PRIMARY KEY,
@@ -24,11 +24,6 @@ SOFTWARE.
       );
 
       INSERT INTO ad_profile (name) VALUES ('Administrateur');
-      INSERT INTO ad_profile (name) VALUES ('DG');
-      INSERT INTO ad_profile (name) VALUES ('DAF');
-      INSERT INTO ad_profile (name) VALUES ('Trésorière');
-      INSERT INTO ad_profile (name) VALUES ('Comptable');
-      INSERT INTO ad_profile (name) VALUES ('Simple utilisateur');
 
       CREATE TABLE ad_access_profile (
         access_id character varying(100) NOT NULL,
@@ -37,13 +32,6 @@ SOFTWARE.
         CONSTRAINT ad_access_profile_profile_id_fkey FOREIGN KEY (profile_id) REFERENCES ad_profile (id)
           ON UPDATE CASCADE ON DELETE CASCADE
       );
-
-      INSERT INTO ad_access_profile (access_id, profile_id) VALUES ('VISUALISER_ORDRES_PAIEMENT', 3);
-      INSERT INTO ad_access_profile (access_id, profile_id) VALUES ('VISUALISER_PAIEMENTS', 3);
-      INSERT INTO ad_access_profile (access_id, profile_id) VALUES ('VISUALISER_ORDRES_PAIEMENT', 4);
-      INSERT INTO ad_access_profile (access_id, profile_id) VALUES ('VISUALISER_PAIEMENTS', 4);
-      INSERT INTO ad_access_profile (access_id, profile_id) VALUES ('VISUALISER_ORDRES_PAIEMENT', 5);
-      INSERT INTO ad_access_profile (access_id, profile_id) VALUES ('VISUALISER_PAIEMENTS', 5);
 
       CREATE TABLE ad_person (
         id bigserial PRIMARY KEY,

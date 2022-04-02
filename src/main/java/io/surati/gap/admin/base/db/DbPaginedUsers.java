@@ -19,6 +19,7 @@ package io.surati.gap.admin.base.db;
 import com.jcabi.jdbc.JdbcSession;
 import com.jcabi.jdbc.ListOutcome;
 import com.jcabi.jdbc.SingleOutcome;
+import io.surati.gap.admin.base.api.Profile;
 import io.surati.gap.admin.base.api.User;
 import io.surati.gap.admin.base.api.Users;
 import io.surati.gap.database.utils.exceptions.DatabaseException;
@@ -87,8 +88,8 @@ public final class DbPaginedUsers implements Users {
 	}
 
 	@Override
-	public User register(String name, String login, String password) {
-		return this.origin.register(name, login, password);
+	public User register(String name, String login, String password, Profile profile) {
+		return this.origin.register(name, login, password, profile);
 	}
 
 	@Override
