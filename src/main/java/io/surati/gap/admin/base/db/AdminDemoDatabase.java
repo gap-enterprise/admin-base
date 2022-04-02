@@ -33,7 +33,7 @@ public final class AdminDemoDatabase extends DataSourceWrap {
     public AdminDemoDatabase(final DataSource src) {
         super(
             new AdminDatabaseBuiltWithLiquibase(
-                src, "prod AND demo"
+                src, "prod,demo"
             )
         );
     }

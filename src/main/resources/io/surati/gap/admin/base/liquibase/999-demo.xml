@@ -30,7 +30,7 @@ SOFTWARE.
             INSERT INTO ad_access_profile (access_id, profile_id) VALUES ('VISUALISER_INFO_ENTREPRISE', 5);
 
             INSERT INTO ad_person (id, name) VALUES (2, 'MONDG Yossef');
-            INSERT INTO ad_person (id, name) VALUES (3, 'MADAF Celine');
+            INSERT INTO ad_person (id, name) VALUES (3, 'MADAF Céline');
             INSERT INTO ad_person (id, name) VALUES (4, 'MATRESO Emeraude');
             INSERT INTO ad_person (id, name) VALUES (5, 'MACOMPTABLE Mickael');
             INSERT INTO ad_person (id, name) VALUES (6, 'MONASSIST Laussane');
