@@ -11,13 +11,15 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
 import org.testcontainers.containers.OracleContainer;
 
 /**
- * IT test for Oracle compatibility.
+ * IT tests for Oracle compatibility.
  *
  * @since 0.4
  */
+@Disabled
 public final class OracleCompatibilityITCase {
 
     /**

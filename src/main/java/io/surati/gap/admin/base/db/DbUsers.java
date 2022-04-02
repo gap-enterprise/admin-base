@@ -18,6 +18,7 @@ package io.surati.gap.admin.base.db;
 
 import com.jcabi.jdbc.JdbcSession;
 import com.jcabi.jdbc.SingleOutcome;
+import io.surati.gap.admin.base.api.Profile;
 import io.surati.gap.admin.base.api.User;
 import io.surati.gap.admin.base.api.Users;
 import io.surati.gap.admin.base.db.jooq.generated.tables.AdPerson;
@@ -41,11 +42,6 @@ import org.jooq.DSLContext;
  * @since 0.1
  */
 public final class DbUsers implements Users {
-
-	/**
-	 * Simple user ID.
-	 */
-	private static final Long SIMPLE_USER_PROFILE_ID = 6L;
 
 	/**
 	 * Table of user.
@@ -138,7 +134,9 @@ public final class DbUsers implements Users {
 	}
 
 	@Override
-	public User register(final String name, final String login, final String password) {
+	public User register(
+		final String name, final String login, final String password, final Profile profile
+	) {
 		if(StringUtils.isBlank(name)) 
 			throw new IllegalArgumentException("Le nom  ne peut être vide !");
 		if(StringUtils.isBlank(login))
@@ -157,7 +155,7 @@ public final class DbUsers implements Users {
 			.set(USER.LOGIN, login)
 			.set(USER.PASSWORD, new EncryptedWordImpl(password, salt).value())
 			.set(USER.SALT, salt.value())
-			.set(USER.PROFILE_ID, DbUsers.SIMPLE_USER_PROFILE_ID)
+			.set(USER.PROFILE_ID, profile.id())
 			.execute();
 		return new DbUser(this.source, idx);
 	}

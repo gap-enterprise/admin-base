@@ -66,9 +66,10 @@ public interface Users {
 	 * @param name
 	 * @param login
 	 * @param password
+	 * @param profile Profile
 	 * @return 
 	 */
-	User register(String name, String login, String password);
+	User register(String name, String login, String password, Profile profile);
 	
 	/**
 	 * Iterate item

@@ -20,7 +20,7 @@ SOFTWARE.
   <parent>
     <groupId>com.jcabi</groupId>
     <artifactId>parent</artifactId>
-    <version>0.57.0</version>
+    <version>0.57.2</version>
   </parent>
   <groupId>io.surati.gap</groupId>
   <artifactId>admin-base</artifactId>
@@ -107,7 +107,7 @@ SOFTWARE.
     <dependency>
       <groupId>org.liquibase</groupId>
       <artifactId>liquibase-core</artifactId>
-      <version>4.9.0</version>
+      <version>4.9.1</version>
       <scope>runtime</scope>
     </dependency>
     <dependency>
@@ -129,6 +129,7 @@ SOFTWARE.
       <groupId>com.baudoliver7</groupId>
       <artifactId>lightweight-db</artifactId>
       <version>0.5.1</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.cactoos</groupId>
@@ -154,7 +155,7 @@ SOFTWARE.
     <dependency>
       <groupId>io.surati.gap</groupId>
       <artifactId>database-utils</artifactId>
-      <version>0.5.0</version>
+      <version>0.5.1</version>
     </dependency>
     <dependency>
       <groupId>com.zaxxer</groupId>
@@ -190,7 +191,7 @@ SOFTWARE.
     <dependency>
       <groupId>com.baudoliver7</groupId>
       <artifactId>easy-liquibase4j</artifactId>
-      <version>0.1.0</version>
+      <version>0.2.0</version>
     </dependency>
     <dependency>
       <groupId>com.baudoliver7</groupId>

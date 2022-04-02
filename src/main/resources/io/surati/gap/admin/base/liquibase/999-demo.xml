@@ -1,0 +1,45 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<!--
+Copyright (c) 2022 Surati
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to read
+the Software only. Permissions is hereby NOT GRANTED to use, copy, modify,
+merge, publish, distribute, sublicense, and/or sell copies of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+  <changeSet author="baudoliver7" id="999" context="demo">
+    <sql>
+            INSERT INTO ad_profile (id, name) VALUES (2, 'DG');
+            INSERT INTO ad_profile (id, name) VALUES (3, 'DAF');
+            INSERT INTO ad_profile (id, name) VALUES (4, 'Trésorière');
+            INSERT INTO ad_profile (id, name) VALUES (5, 'Comptable');
+            INSERT INTO ad_profile (id, name) VALUES (6, 'Assistant Trésorerie');
+
+            INSERT INTO ad_access_profile (access_id, profile_id) VALUES ('VISUALISER_INFO_ENTREPRISE', 2);
+            INSERT INTO ad_access_profile (access_id, profile_id) VALUES ('VISUALISER_INFO_ENTREPRISE', 3);
+            INSERT INTO ad_access_profile (access_id, profile_id) VALUES ('VISUALISER_INFO_ENTREPRISE', 4);
+            INSERT INTO ad_access_profile (access_id, profile_id) VALUES ('VISUALISER_INFO_ENTREPRISE', 5);
+
+            INSERT INTO ad_person (id, name) VALUES (2, 'MONDG Yossef');
+            INSERT INTO ad_person (id, name) VALUES (3, 'MADAF Celine');
+            INSERT INTO ad_person (id, name) VALUES (4, 'MATRESO Emeraude');
+            INSERT INTO ad_person (id, name) VALUES (5, 'MACOMPTABLE Mickael');
+            INSERT INTO ad_person (id, name) VALUES (6, 'MONASSIST Laussane');
+
+            INSERT INTO ad_user (id, login, password, salt, blocked, profile_id) VALUES (2, 'yossef', 'QtYK2jamtPKAW6o7eA6bdl7LV9koAIe2Xgn6G4421t0=', 'tEKGn5wcw2Lbi4sQ8izM7pxqUPQwI0', false, 2);
+            INSERT INTO ad_user (id, login, password, salt, blocked, profile_id) VALUES (3, 'celine', 'QtYK2jamtPKAW6o7eA6bdl7LV9koAIe2Xgn6G4421t0=', 'tEKGn5wcw2Lbi4sQ8izM7pxqUPQwI0', false, 3);
+            INSERT INTO ad_user (id, login, password, salt, blocked, profile_id) VALUES (4, 'emeraude', 'QtYK2jamtPKAW6o7eA6bdl7LV9koAIe2Xgn6G4421t0=', 'tEKGn5wcw2Lbi4sQ8izM7pxqUPQwI0', false, 4);
+            INSERT INTO ad_user (id, login, password, salt, blocked, profile_id) VALUES (5, 'mickael', 'QtYK2jamtPKAW6o7eA6bdl7LV9koAIe2Xgn6G4421t0=', 'tEKGn5wcw2Lbi4sQ8izM7pxqUPQwI0', false, 5);
+            INSERT INTO ad_user (id, login, password, salt, blocked, profile_id) VALUES (6, 'laussane', 'QtYK2jamtPKAW6o7eA6bdl7LV9koAIe2Xgn6G4421t0=', 'tEKGn5wcw2Lbi4sQ8izM7pxqUPQwI0', false, 6);
+        </sql>
+  </changeSet>
+</databaseChangeLog>

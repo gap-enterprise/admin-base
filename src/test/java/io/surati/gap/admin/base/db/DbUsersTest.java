@@ -17,6 +17,7 @@
 package io.surati.gap.admin.base.db;
 
 import com.lightweight.db.EmbeddedPostgreSQLDataSource;
+import io.surati.gap.admin.base.api.Profile;
 import io.surati.gap.admin.base.api.User;
 import io.surati.gap.admin.base.api.Users;
 import io.surati.gap.database.utils.extensions.DatabaseSetupExtension;
@@ -41,12 +42,13 @@ final class DbUsersTest {
 	 */
 	@RegisterExtension
 	final DatabaseSetupExtension src = new DatabaseSetupExtension(
-		new EmbeddedPostgreSQLDataSource(),
-		AdminDatabaseBuiltWithLiquibase.CHANGELOG_MASTER_FILENAME
+		new AdminDatabaseBuiltWithLiquibase(
+			new EmbeddedPostgreSQLDataSource()
+		)
 	);
 
     /**
-     * Users users.
+     * Users.
      */
     private Users users;
     
@@ -55,17 +57,25 @@ final class DbUsersTest {
      */
     private User admin;
 
+	/**
+	 * User profile.
+	 */
+	private Profile profile;
+
 	@BeforeEach
 	void setUp() {
 		this.users = new DbUsers(this.src);
 		this.admin = new DbUser(this.src, 1L);
+		this.profile = new DbProfile(this.src, 1L);
 	}
 	
 	@Test
-	void registersAnUser() {
+	void registersUser() {
 		final String name = "Marx Brou";
 		final String login = "brou87";
-		final User user = this.users.register(name, login, "broupwd");
+		final User user = this.users.register(
+			name, login, "broupwd", this.profile
+		);
 		MatcherAssert.assertThat(
 			user,
 			new Satisfies<>(
@@ -97,9 +107,9 @@ final class DbUsersTest {
 	}
 	
 	@Test
-	void countsTotalNumberOfUsers() {
-		this.users.register("Mentor", "mentor", "mentorpwd");
-		this.users.register("Guest", "guest", "guestpwd");
+	void countsTotalNumber() {
+		this.users.register("Mentor", "mentor", "mentorpwd", this.profile);
+		this.users.register("Guest", "guest", "guestpwd", this.profile);
 		MatcherAssert.assertThat(
             this.users.count(),
             Matchers.equalTo(3L)
@@ -107,7 +117,7 @@ final class DbUsersTest {
 	}
 	
 	@Test
-	void authenticatesUserWithNonEncryptedPassword() {
+	void authenticatesWithNonEncryptedPassword() {
 		MatcherAssert.assertThat(
 			this.users.authenticate(this.admin.login(), "admin"),
 			Matchers.is(true)
@@ -115,7 +125,7 @@ final class DbUsersTest {
 	}
 	
 	@Test
-	void authenticatesUserWithEncryptedPassword() {
+	void authenticatesWithEncryptedPassword() {
 		MatcherAssert.assertThat(
 			users.authenticatePwdEncrypted(
 				this.admin.login(),
@@ -126,11 +136,11 @@ final class DbUsersTest {
 	}
 	
 	@Test
-    void iterate() {
+    void iterates() {
     	final String[] names = {"Administrateur", "Mentor", "Guest"};
 		final String[] logins = {"admin", "mentor", "guest"};
-		this.users.register(names[1], logins[1], "pwd1");
-		this.users.register(names[2], logins[2], "pwd2");
+		this.users.register(names[1], logins[1], "pwd1", this.profile);
+		this.users.register(names[2], logins[2], "pwd2", this.profile);
 		MatcherAssert.assertThat(
             "Application should have three users.",
             this.users.count(),
