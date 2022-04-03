@@ -38,7 +38,7 @@ public final class AdminDatabaseBuiltWithLiquibase extends DataSourceWrap {
      * @param src Data source
      */
     public AdminDatabaseBuiltWithLiquibase(final DataSource src) {
-        this(src, "prod");
+        this(src, "base");
     }
 
     /**
