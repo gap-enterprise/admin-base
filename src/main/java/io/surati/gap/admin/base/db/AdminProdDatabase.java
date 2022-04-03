@@ -20,20 +20,20 @@ import com.baudoliver7.jdbc.toolset.wrapper.DataSourceWrap;
 import javax.sql.DataSource;
 
 /**
- * Database with demo data.
+ * Database with prod data.
  *
  * @since 0.4
  */
-public final class AdminDemoDatabase extends DataSourceWrap {
+public final class AdminProdDatabase extends DataSourceWrap {
 
     /**
      * Ctor.
      * @param src Data source
      */
-    public AdminDemoDatabase(final DataSource src) {
+    public AdminProdDatabase(final DataSource src) {
         super(
             new AdminDatabaseBuiltWithLiquibase(
-                src, "base,demo"
+                src, "base,prod"
             )
         );
     }
