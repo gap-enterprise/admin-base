@@ -207,8 +207,8 @@ public final class DbUsers implements Users {
 		}
 		try (
 			final Connection connection = this.source.getConnection();
-			final PreparedStatement pstmt = connection.prepareStatement("DELETE FROM AD_USER WHERE id=?");
-			final PreparedStatement pstmt1 = connection.prepareStatement("DELETE FROM person WHERE id=?");
+			final PreparedStatement pstmt = connection.prepareStatement("DELETE FROM ad_user WHERE id=?");
+			final PreparedStatement pstmt1 = connection.prepareStatement("DELETE FROM ad_person WHERE id=?");
 		) {
 			pstmt.setLong(1, id);
 			pstmt1.setLong(1, id);

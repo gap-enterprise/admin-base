@@ -80,7 +80,7 @@ public abstract class DbAbstractPerson implements Person {
 		
 		try (
 			final Connection connection = source.getConnection();
-			final PreparedStatement pstmt = connection.prepareStatement("UPDATE person SET name=? WHERE id=?")
+			final PreparedStatement pstmt = connection.prepareStatement("UPDATE ad_person SET name=? WHERE id=?")
 		) {
 			pstmt.setString(1, name);
 			pstmt.setLong(2, id);
