@@ -25,6 +25,7 @@ import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.hamcrest.core.IsEqual;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.llorllale.cactoos.matchers.Satisfies;
@@ -34,6 +35,7 @@ import org.llorllale.cactoos.matchers.Satisfies;
  *
  * @since 0.1
  */
+@Disabled
 final class DbUsersTest {
 
 	/**
