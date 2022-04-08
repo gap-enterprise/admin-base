@@ -25,7 +25,6 @@ import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.hamcrest.core.IsEqual;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.llorllale.cactoos.matchers.Satisfies;
@@ -35,7 +34,6 @@ import org.llorllale.cactoos.matchers.Satisfies;
  *
  * @since 0.1
  */
-@Disabled
 final class DbUsersTest {
 
 	/**
@@ -114,7 +112,7 @@ final class DbUsersTest {
 		this.users.register("Guest", "guest", "guestpwd", this.profile);
 		MatcherAssert.assertThat(
             this.users.count(),
-            Matchers.equalTo(3L)
+            Matchers.equalTo(4L)
         );
 	}
 	
@@ -139,14 +137,14 @@ final class DbUsersTest {
 	
 	@Test
     void iterates() {
-    	final String[] names = {"Administrateur", "Mentor", "Guest"};
-		final String[] logins = {"admin", "mentor", "guest"};
-		this.users.register(names[1], logins[1], "pwd1", this.profile);
-		this.users.register(names[2], logins[2], "pwd2", this.profile);
+    	final String[] names = {"Administrateur", "Anonyme", "Mentor", "Guest"};
+		final String[] logins = {"admin", "anonymous", "mentor", "guest"};
+		this.users.register(names[2], logins[2], "pwd1", this.profile);
+		this.users.register(names[3], logins[3], "pwd2", this.profile);
 		MatcherAssert.assertThat(
             "Application should have three users.",
             this.users.count(),
-            new IsEqual<>(Long.valueOf(3L))
+            new IsEqual<>(Long.valueOf(4L))
         );
 		int idx = 0;
 		for (final User user : this.users.iterate()) {
@@ -157,7 +155,7 @@ final class DbUsersTest {
 				user,
 				new Satisfies<>(
 					usr -> usr.name().equals(name) &&
-						   usr.login().equals(login)
+				   		usr.login().equals(login)
 				)
 			);
 			idx ++;
