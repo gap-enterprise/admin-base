@@ -69,7 +69,7 @@ SOFTWARE.
       INSERT INTO ad_user (id, login, password, salt, blocked, profile_id) VALUES (1, 'admin', 'bgJf2vB2udmDA3yZ/8Sb14AUJ9YhLXevdTTL31DIncQ=', 'PErZHEn0O6IOwUXh8IWRVC40aSol6S', false, 1);
       INSERT INTO ad_user (id, login, password, salt, blocked, profile_id) VALUES (2, 'anonymous', 'bgJf2vB2udmDA3yZ/8Sb14AUJ9YhLXevdTTL31DIncQ=', 'PErZHEn0O6IOwUXh8IWRVC40aSol6S', true, 2);
     </sql>
-    <sql>
+    <sql dbms="postgresql">
       select pg_catalog.setval('ad_profile_id_seq', (select max(id) from ad_profile));
       select pg_catalog.setval('ad_person_id_seq', (select max(id) from ad_person));
     </sql>

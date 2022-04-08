@@ -23,7 +23,6 @@ import io.surati.gap.database.utils.extensions.DatabaseSetupExtension;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 
@@ -32,7 +31,6 @@ import org.junit.jupiter.api.extension.RegisterExtension;
  *
  * @since 0.1
  */
-@Disabled
 final class DbUserTest {
 
     /**
