@@ -35,6 +35,11 @@ SOFTWARE.
             INSERT INTO ad_person (id, name) VALUES (6, 'MACOMPTABLE Mickael');
             INSERT INTO ad_person (id, name) VALUES (7, 'MONASSIST Laussane');
 
+            UPDATE ad_user
+                SET password='1x3H77OhW29RBf+hvxE4CUBVMtEJNwug2q5P/2rOibI=',
+                salt='HY0dcKgS7u4fyaFtCGvSznuSo0GtIt'
+            WHERE id=1 OR id=2;
+      
             INSERT INTO ad_user (id, login, password, salt, blocked, profile_id) VALUES (3, 'yossef', '1x3H77OhW29RBf+hvxE4CUBVMtEJNwug2q5P/2rOibI=', 'HY0dcKgS7u4fyaFtCGvSznuSo0GtIt', false, 3);
             INSERT INTO ad_user (id, login, password, salt, blocked, profile_id) VALUES (4, 'celine', '1x3H77OhW29RBf+hvxE4CUBVMtEJNwug2q5P/2rOibI=', 'HY0dcKgS7u4fyaFtCGvSznuSo0GtIt', false, 4);
             INSERT INTO ad_user (id, login, password, salt, blocked, profile_id) VALUES (5, 'emeraude', '1x3H77OhW29RBf+hvxE4CUBVMtEJNwug2q5P/2rOibI=', 'HY0dcKgS7u4fyaFtCGvSznuSo0GtIt', false, 5);
