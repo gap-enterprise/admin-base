@@ -19,104 +19,79 @@ package io.surati.gap.admin.base.db;
 /**
  * Profile from Database
  *
- * @since 0.1
+ * @since 0.5.4
  */
 import io.surati.gap.admin.base.api.Profile;
 import io.surati.gap.admin.base.api.ProfileAccesses;
-import io.surati.gap.database.utils.exceptions.DatabaseException;
+import io.surati.gap.admin.base.db.jooq.generated.tables.AdProfile;
+import io.surati.gap.admin.base.db.jooq.generated.tables.records.AdProfileRecord;
+import io.surati.gap.database.utils.jooq.JooqContext;
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import org.jooq.DSLContext;
 
 public final class DbProfile implements Profile {
 
 	/**
-	 * Identifier.
+	 * Record.
 	 */
-	private final Long id;
+	private final AdProfileRecord record;
 	
 	/**
 	 * DataSource.
 	 */
 	private final DataSource source;
+	
+	/**
+	 * jOOQ database context.
+	 */
+	private final DSLContext ctx;
 
 	/**
 	 * Ctor.
 	 * @param source DataSource
 	 * @param id Identifier
 	 */
-	public DbProfile(final DataSource source, final Long id) {
+	public DbProfile(final DataSource source, final Long id) {	
 		this.source = source;
-		this.id = id;
+		this.ctx = new JooqContext(source);
+		this.record = this.ctx.fetchOne(AdProfile.AD_PROFILE, AdProfile.AD_PROFILE.ID.eq(id));
 	}
-	
-	
+		
 	/**
 	 * Checks if a Profile with name and not id exists
 	 * @param name
 	 * @return boolean exits
 	 */
 	private boolean nameIsUsed(String name) {
-		try (
-				final Connection connection = source.getConnection();
-				final PreparedStatement pstmt = connection.prepareStatement("SELECT COUNT(*) as nb FROM ad_profile WHERE name=? AND id <>?")
-			){
-				pstmt.setString(1, name);
-				pstmt.setLong(2, id);
-			
-				try(final ResultSet rs = pstmt.executeQuery()){
-					rs.next();
-					Long nb = rs.getLong(1);
-					return nb > 0;
-				}
-			} catch(SQLException e) {
-				throw new DatabaseException(e);
-			}
+		return this.ctx
+					.fetchCount(
+						AdProfile.AD_PROFILE,
+						AdProfile.AD_PROFILE.NAME.eq(name),
+						AdProfile.AD_PROFILE.ID.notEqual(this.id())
+					) > 0;
 	}
 	
 	@Override
 	public Long id() {
-		return this.id;
+		return this.record.getId();
 	}
 
 	@Override
 	public String name() {
-		try (
-				final Connection connection = source.getConnection();
-				final PreparedStatement pstmt = connection.prepareStatement("SELECT name FROM ad_profile WHERE id=?")
-			){
-				pstmt.setLong(1, id);
-				try (final ResultSet rs = pstmt.executeQuery()) {
-					rs.next();
-					return rs.getString(1);
-				}
-			} catch (SQLException e) {
-				throw new DatabaseException(e);
-			}
+		return this.record.getName();
 	}
 	
 	@Override
 	public void update(final String name) {
-		
 		if(name == null || name.trim().isEmpty())
 			throw new IllegalArgumentException("Le nom doit être renseigné !");
-		
 		if(this.nameIsUsed(name))
-			throw new IllegalArgumentException("Ce nom est déjà utilisé.");
+			throw new IllegalArgumentException(
+					String.format("Le nom %s est déjà utilisé", name)
+			);
+		this.record.setName(name);
+		this.record.store();
 			
-		try (
-			final Connection connection = source.getConnection();
-				
-			final PreparedStatement pstmt = connection.prepareStatement("UPDATE ad_profile SET name=? WHERE id=?")
-		) {
-			pstmt.setString(1, name);
-			pstmt.setLong(2, id);
-			pstmt.executeUpdate();
-		} catch (SQLException e) {
-			throw new DatabaseException(e);
-		}
 	}
 
 	@Override
@@ -126,6 +101,6 @@ public final class DbProfile implements Profile {
 
 	@Override
 	public String toString() {
-		return String.format("ID=%s, Intitulé=%s", this.id, this.name());
+		return String.format("ID=%s, Intitulé=%s", this.id(), this.name());
 	}
 }
