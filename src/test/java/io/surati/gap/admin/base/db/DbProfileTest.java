@@ -56,12 +56,15 @@ final class DbProfileTest {
     }
     
     @Test
-	public void updateProfile() {
-    	final Profile profile = this.profile;
-    	profile.update("Marx");
+	public void updatesProfile() {
     	MatcherAssert.assertThat(
-    		profile.id(),
-            Matchers.equalTo(this.profile.id())
+    		this.profile.name(),
+            Matchers.equalTo("Administrateur")
+        );
+    	this.profile.update("Marx");
+    	MatcherAssert.assertThat(
+    			this.profile.name(),
+                Matchers.equalTo("Marx")
         );
     }
 }

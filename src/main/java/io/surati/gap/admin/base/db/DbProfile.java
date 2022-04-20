@@ -19,7 +19,7 @@ package io.surati.gap.admin.base.db;
 /**
  * Profile from Database
  *
- * @since 0.5.4
+ * @since 0.5
  */
 import io.surati.gap.admin.base.api.Profile;
 import io.surati.gap.admin.base.api.ProfileAccesses;
@@ -28,6 +28,8 @@ import io.surati.gap.admin.base.db.jooq.generated.tables.records.AdProfileRecord
 import io.surati.gap.database.utils.jooq.JooqContext;
 import javax.sql.DataSource;
 import org.jooq.DSLContext;
+
+import com.restfb.util.StringUtils;
 
 public final class DbProfile implements Profile {
 
@@ -66,7 +68,7 @@ public final class DbProfile implements Profile {
 		return this.ctx
 					.fetchCount(
 						AdProfile.AD_PROFILE,
-						AdProfile.AD_PROFILE.NAME.eq(name),
+						AdProfile.AD_PROFILE.NAME.eq(name.trim()),
 						AdProfile.AD_PROFILE.ID.notEqual(this.id())
 					) > 0;
 	}
@@ -83,7 +85,7 @@ public final class DbProfile implements Profile {
 	
 	@Override
 	public void update(final String name) {
-		if(name == null || name.trim().isEmpty())
+		if(StringUtils.isBlank(name))
 			throw new IllegalArgumentException("Le nom doit être renseigné !");
 		if(this.nameIsUsed(name))
 			throw new IllegalArgumentException(
