@@ -16,29 +16,32 @@
  */
 package io.surati.gap.admin.base.db;
 
-import com.jcabi.jdbc.JdbcSession;
-import com.jcabi.jdbc.Outcome;
-import com.jcabi.jdbc.SingleOutcome;
+import javax.sql.DataSource;
+
+import org.apache.commons.lang3.StringUtils;
+import org.jooq.DSLContext;
+
 import io.surati.gap.admin.base.api.Profile;
 import io.surati.gap.admin.base.api.Profiles;
-import io.surati.gap.database.utils.exceptions.DatabaseException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collection;
-import javax.sql.DataSource;
-import org.apache.commons.lang3.StringUtils;
-import org.cactoos.text.Joined;
+import io.surati.gap.admin.base.db.jooq.generated.tables.AdProfile;
+import io.surati.gap.admin.base.db.jooq.generated.tables.AdUser;
+import io.surati.gap.database.utils.jooq.JooqContext;
 
 /**
  * Profiles in Database.
  * 
- * @since 0.1
+ * @since 0.5
  */
 public final class DbProfiles implements Profiles {
-
+	
+	/**
+	 * jOOQ database context.
+	 */
+	private final DSLContext ctx;
+	
+	/**
+	 * DataSource source.
+	 */
 	private final DataSource source;
 	
 	/**
@@ -47,37 +50,36 @@ public final class DbProfiles implements Profiles {
 	 */
 	public DbProfiles(final DataSource source) {
 		this.source = source;
+		this.ctx = new JooqContext(this.source);
 	}
 	
 	@Override
 	public Profile get(Long id) {
-		if(this.has(id)) {
-			return new DbProfile(this.source, id);
-		} else {
-			throw new IllegalArgumentException(String.format("Le profil avec ID %s n'a pas été trouvé !", id));
+		if(!this.has(id)) {
+			throw new IllegalArgumentException(
+				String.format("Le profil avec ID %s n'a pas été trouvé !", id)
+			);
 		}
+		return new DbProfile(
+			this.source,
+			id
+		);
 	}
 
 	private boolean has(final Long id) {
-		try {
-			return new JdbcSession(this.source)
-				.sql("SELECT COUNT(*) FROM ad_profile WHERE id=?")
-				.set(id)
-				.select(new SingleOutcome<>(Long.class)) > 0;
-		} catch(SQLException ex) {
-			throw new DatabaseException(ex);
-		}
+		return this.ctx
+				   .fetchCount(
+						AdProfile.AD_PROFILE,
+						AdProfile.AD_PROFILE.ID.eq(id)
+					) > 0;
 	}
 	
 	private boolean has(final String name) {
-		try {
-			return new JdbcSession(this.source)
-				.sql("SELECT COUNT(*) FROM ad_profile WHERE name=?")
-				.set(name)
-				.select(new SingleOutcome<>(Long.class)) > 0;
-		} catch(SQLException ex) {
-			throw new DatabaseException(ex);
-		}
+		return this.ctx
+				   .fetchCount(
+						AdProfile.AD_PROFILE,
+						AdProfile.AD_PROFILE.NAME.eq(name.trim())
+					) > 0;
 	}
 	
 	@Override
@@ -86,76 +88,43 @@ public final class DbProfiles implements Profiles {
 			throw new IllegalArgumentException("Le nom ne peut être vide !");
 		}
 		if(this.has(name)) {
-			throw new IllegalArgumentException("Le nom est déjà utilisé !");
+			throw new IllegalArgumentException(
+					String.format("Le nom %s est déjà utilisé !", name)
+				);
 		}
-		try {
-			return new DbProfile(
-				this.source,
-				new JdbcSession(this.source)
-					.sql(
-						new Joined(
-							" ",
-                            "INSERT INTO ad_profile",
-                            "(name)",
-                            "VALUES",
-                            "(?)"
-						).toString()
-					)
-					.set(name)
-					.insert(Outcome.LAST_INSERT_ID)
-			);
-		} catch(SQLException ex) {
-			throw new DatabaseException(ex);
-		}
+		
+		final Long idx = this.ctx.insertInto(AdProfile.AD_PROFILE)
+							 .set(AdProfile.AD_PROFILE.NAME, name)
+							 .returning(AdProfile.AD_PROFILE.ID)
+							 .fetchOne().getId();
+	    return new DbProfile(this.source, idx);
 	}
 
 	@Override
-	public Iterable<Profile> iterate() {		
-		try (
-			final Connection connection = source.getConnection();
-			final PreparedStatement pstmt = connection.prepareStatement("SELECT id FROM ad_profile")
-		){
-			final Collection<Profile> items = new ArrayList<>();
-			
-			try(final ResultSet rs = pstmt.executeQuery()){
-				while(rs.next()) {
-					items.add(new DbProfile(source, rs.getLong(1)));
-				}
-			}
-			
-			return items;
-		} catch(SQLException e) {
-			throw new DatabaseException(e);
-		}
+	public Iterable<Profile> iterate() {	
+		return this.ctx
+				   .selectFrom(AdProfile.AD_PROFILE)
+				   .fetch(
+						rec -> new DbProfile(
+							this.source, rec.getId()
+						)
+					);
 	}
 	
 	@Override
 	public void remove(final Long id) {
-		try {
-			final boolean used = new JdbcSession(this.source)
-		            .sql(
-		                new Joined(
-		                    " ",
-		                    "SELECT COUNT(*) FROM ad_profile",
-		                    "WHERE id=? AND id IN (SELECT profile_id FROM ad_user)"
-		                ).toString()
-		            )
-		            .set(id)
-		            .select(new SingleOutcome<>(Long.class)) > 0;
-		        if(used) {
-		        	throw new IllegalArgumentException("Le profil ne peut pas être supprimé (déjà utilisé) !");
-		        }
-		} catch (SQLException ex) {
-			throw new DatabaseException(ex);
-		}
-		try (
-			final Connection connection = source.getConnection();
-			final PreparedStatement pstmt = connection.prepareStatement("DELETE FROM ad_profile WHERE id=?");
-		) {
-			pstmt.setLong(1, id);
-			pstmt.executeUpdate();
-		} catch (SQLException e) {
-			throw new DatabaseException(e);
-		}
+		final boolean used = this.ctx
+								 .fetchCount(
+									 AdUser.AD_USER,
+									 AdUser.AD_USER.PROFILE_ID.eq(id)
+							     ) > 0;
+	    if(used) {
+	        throw new IllegalArgumentException("Le profil ne peut pas être supprimé (déjà utilisé) !");
+	    }
+	    else {
+	    	this.ctx.delete(AdProfile.AD_PROFILE)
+			.where(AdProfile.AD_PROFILE.ID.eq(id))
+			.execute();
+	    }
 	}
 }
