@@ -16,6 +16,8 @@
  */
 package io.surati.gap.admin.base.db;
 
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
@@ -47,30 +49,28 @@ final class DbProfileAccessesTest {
 		)
 	);
 
-    /**
+	/**
      * ProfileAccesses.
      */
-    private ProfileAccesses profileAccesses;
+    private ProfileAccesses paccesses;
     
     /**
      * Profile.
      */
-    private Profile adminpro;
-    
-    /**
-     * Access.
-     */
-    private Access access;
+    private Profile newpro;
     
     @BeforeEach
     void setUp() {
-    	this.adminpro = new DbProfile(this.src, 1L);
-        this.profileAccesses = new DbProfileAccesses(this.src, this.adminpro);
+    	this.newpro = new DbProfiles(this.src).add("Guest");
     }
     
     @Test
 	public void addsAccess() {
-    	
+    	this.paccesses.add(MkAccess.VISUALISER_UTILISATEURS);
+    	MatcherAssert.assertThat(
+    			paccesses.has(MkAccess.VISUALISER_UTILISATEURS),
+    			Matchers.is(true)
+		);
 	}
     
     @Test
@@ -88,27 +88,81 @@ final class DbProfileAccessesTest {
     	
 	}
     
-    private class MkAccess implements Access {
+    private enum MkAccess implements Access {
+    	VISUALISER_UTILISATEURS("Visualiser les utilisateurs", ""),
+    	CONFIGURER_UTILISATEURS("Configurer les utilisateurs", ""),
+    	BLOQUER_UTILISATEURS("Bloquer les utilisateurs", ""),
+    	CHANGER_MOT_DE_PASSE_UTILISATEURS("Changer le mot de passe d'un utilisateur", ""),
+    	VISUALISER_PROFILS("Visualiser les profils utilisateur", ""),
+    	CONFIGURER_PROFILS("Configurer les profils utilisateur", ""),
+    	VISUALISER_INFO_ENTREPRISE("Visualiser les informations de l'entreprise", ""),
+    	CONFIGURER_INFO_ENTREPRISE("Configurer les informations de l'entreprise", ""),
+    	VISUALISER_LA_JOURNALISATION("Visualiser la journalisation", "");
 
-		@Override
-		public String code() {
-			return this.code();
-		}
+    	static {
+    		for (Access acs : MkAccess.values()) {
+    			Access.VALUES.add(acs);
+    			Access.BY_CODE.put(acs.code(), acs);
+    		}
+    	}
 
-		@Override
-		public String title() {
-			return this.title();
-		}
+    	/**
+    	 * Title of access.
+    	 */
+    	private String title;
 
-		@Override
-		public String description() {
-			return this.description();
-		}
+    	/**
+    	 * Description.
+    	 */
+    	private String description;
 
-		@Override
-		public Module module() {
-			return this.module();
-		}
+		/**
+    	 * Ctor.
+    	 * @param title Title
+    	 * @param description Description
+    	 */
+    	MkAccess(final String title, final String description) {
+    		this.title = title;
+    		this.description = description;
+    	}
+    	
+    	/**
+    	 * Get title.
+    	 * @return Title
+    	 */
+    	@Override
+    	public String title() {
+    		return this.title;
+    	}
+
+    	/**
+    	 * Get Code.
+    	 * @return Code
+    	 */
+    	public String code() {
+    		return this.name();
+    	}
+
+    	/**
+    	 * Get description.
+    	 * @return Code
+    	 */
+    	public String description() {
+    		return this.description;
+    	}
+
+    	/**
+    	 * Get module.
+    	 * @return Module name
+    	 */
+    	public Module module() {
+    		return null;
+    	}
+    	
+    	@Override
+    	public String toString() {
+    		return this.title;
+    	}
     }
     
 }
