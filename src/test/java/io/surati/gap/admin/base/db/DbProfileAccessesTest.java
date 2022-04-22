@@ -16,7 +16,6 @@
  */
 package io.surati.gap.admin.base.db;
 
-import org.cactoos.list.ListOf;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
@@ -77,13 +76,13 @@ final class DbProfileAccessesTest {
 	public void removesAccess() {
     	this.paccesses.add(MkAccess.CONFIGURER_UTILISATEURS);
     	MatcherAssert.assertThat(
-    			"Profile should have this access : CONFIGURER_UTILISATEURS",
+    			"Profile should have access CONFIGURER_UTILISATEURS",
     			this.paccesses.has(MkAccess.CONFIGURER_UTILISATEURS),
     			Matchers.is(true)
 		);
     	this.paccesses.remove(MkAccess.CONFIGURER_UTILISATEURS);
     	MatcherAssert.assertThat(
-    			"Profile should not have this access : CONFIGURER_UTILISATEURS",
+    			"Profile should not have access CONFIGURER_UTILISATEURS",
     			this.paccesses.has(MkAccess.CONFIGURER_UTILISATEURS),
 	            Matchers.is(false)
         );
@@ -91,17 +90,22 @@ final class DbProfileAccessesTest {
     
     @Test
 	public void removesAllAccess() {
+    	MatcherAssert.assertThat(
+    			"Profile should not have accessn firstly",
+				this.paccesses.iterate(),
+	            Matchers.emptyIterable()
+        );
     	this.paccesses.add(MkAccess.VISUALISER_LA_JOURNALISATION);
     	this.paccesses.add(MkAccess.CONFIGURER_PROFILS);
     	this.paccesses.add(MkAccess.BLOQUER_UTILISATEURS);
     	MatcherAssert.assertThat(
-    			"Profile should have these accesses : VISUALISER_LA_JOURNALISATION, CONFIGURER_PROFILS, BLOQUER_UTILISATEURS",
+    			"Profile should have accesses VISUALISER_LA_JOURNALISATION, CONFIGURER_PROFILS, BLOQUER_UTILISATEURS",
 				this.paccesses.iterate(),
 	            Matchers.hasItems(MkAccess.VISUALISER_LA_JOURNALISATION, MkAccess.CONFIGURER_PROFILS, MkAccess.BLOQUER_UTILISATEURS)
         );
     	this.paccesses.removeAll();
     	MatcherAssert.assertThat(
-    			"Profile must be empty",
+    			"Profile should not have access",
 				this.paccesses.iterate(),
 	            Matchers.emptyIterable()
         );
