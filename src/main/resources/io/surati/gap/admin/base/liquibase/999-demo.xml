@@ -35,11 +35,16 @@ SOFTWARE.
             INSERT INTO ad_person (id, name) VALUES (6, 'MACOMPTABLE Mickael');
             INSERT INTO ad_person (id, name) VALUES (7, 'MONASSIST Laussane');
 
-            INSERT INTO ad_user (id, login, password, salt, blocked, profile_id) VALUES (3, 'yossef', 'QtYK2jamtPKAW6o7eA6bdl7LV9koAIe2Xgn6G4421t0=', 'tEKGn5wcw2Lbi4sQ8izM7pxqUPQwI0', false, 3);
-            INSERT INTO ad_user (id, login, password, salt, blocked, profile_id) VALUES (4, 'celine', 'QtYK2jamtPKAW6o7eA6bdl7LV9koAIe2Xgn6G4421t0=', 'tEKGn5wcw2Lbi4sQ8izM7pxqUPQwI0', false, 4);
-            INSERT INTO ad_user (id, login, password, salt, blocked, profile_id) VALUES (5, 'emeraude', 'QtYK2jamtPKAW6o7eA6bdl7LV9koAIe2Xgn6G4421t0=', 'tEKGn5wcw2Lbi4sQ8izM7pxqUPQwI0', false, 5);
-            INSERT INTO ad_user (id, login, password, salt, blocked, profile_id) VALUES (6, 'mickael', 'QtYK2jamtPKAW6o7eA6bdl7LV9koAIe2Xgn6G4421t0=', 'tEKGn5wcw2Lbi4sQ8izM7pxqUPQwI0', false, 6);
-            INSERT INTO ad_user (id, login, password, salt, blocked, profile_id) VALUES (7, 'laussane', 'QtYK2jamtPKAW6o7eA6bdl7LV9koAIe2Xgn6G4421t0=', 'tEKGn5wcw2Lbi4sQ8izM7pxqUPQwI0', false, 7);
+            UPDATE ad_user
+                SET password='1x3H77OhW29RBf+hvxE4CUBVMtEJNwug2q5P/2rOibI=',
+                salt='HY0dcKgS7u4fyaFtCGvSznuSo0GtIt'
+            WHERE id=1 OR id=2;
+      
+            INSERT INTO ad_user (id, login, password, salt, blocked, profile_id) VALUES (3, 'yossef', '1x3H77OhW29RBf+hvxE4CUBVMtEJNwug2q5P/2rOibI=', 'HY0dcKgS7u4fyaFtCGvSznuSo0GtIt', false, 3);
+            INSERT INTO ad_user (id, login, password, salt, blocked, profile_id) VALUES (4, 'celine', '1x3H77OhW29RBf+hvxE4CUBVMtEJNwug2q5P/2rOibI=', 'HY0dcKgS7u4fyaFtCGvSznuSo0GtIt', false, 4);
+            INSERT INTO ad_user (id, login, password, salt, blocked, profile_id) VALUES (5, 'emeraude', '1x3H77OhW29RBf+hvxE4CUBVMtEJNwug2q5P/2rOibI=', 'HY0dcKgS7u4fyaFtCGvSznuSo0GtIt', false, 5);
+            INSERT INTO ad_user (id, login, password, salt, blocked, profile_id) VALUES (6, 'mickael', '1x3H77OhW29RBf+hvxE4CUBVMtEJNwug2q5P/2rOibI=', 'HY0dcKgS7u4fyaFtCGvSznuSo0GtIt', false, 6);
+            INSERT INTO ad_user (id, login, password, salt, blocked, profile_id) VALUES (7, 'laussane', '1x3H77OhW29RBf+hvxE4CUBVMtEJNwug2q5P/2rOibI=', 'HY0dcKgS7u4fyaFtCGvSznuSo0GtIt', false, 7);
         </sql>
   </changeSet>
 </databaseChangeLog>
