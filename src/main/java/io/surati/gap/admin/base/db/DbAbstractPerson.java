@@ -16,18 +16,21 @@
  */
 package io.surati.gap.admin.base.db;
 
-import io.surati.gap.admin.base.api.Person;
-import io.surati.gap.database.utils.exceptions.DatabaseException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import javax.sql.DataSource;
+
+import org.jooq.DSLContext;
+
+import com.restfb.util.StringUtils;
+
+import io.surati.gap.admin.base.api.Person;
+import io.surati.gap.admin.base.db.jooq.generated.tables.AdPerson;
+import io.surati.gap.admin.base.db.jooq.generated.tables.records.AdPersonRecord;
+import io.surati.gap.database.utils.jooq.JooqContext;
 
 /**
  * Person in Database.
  * 
- * @since 0.1
+ * @since 0.5
  */
 public abstract class DbAbstractPerson implements Person {
 
@@ -35,6 +38,16 @@ public abstract class DbAbstractPerson implements Person {
 	 * Data source
 	 */
 	protected final DataSource source;
+
+	/**
+	 * Record.
+	 */
+	private final AdPersonRecord record;
+	
+	/**
+	 * jOOQ database context.
+	 */
+	private final DSLContext ctx;
 	
 	/**
 	 * Id of person
@@ -49,46 +62,25 @@ public abstract class DbAbstractPerson implements Person {
 	public DbAbstractPerson(final DataSource source, final Long id) {
 		this.source = source;
 		this.id = id;
+		this.ctx = new JooqContext(source);
+		this.record = this.ctx.fetchOne(AdPerson.AD_PERSON, AdPerson.AD_PERSON.ID.eq(id));
 	}
 	
 	@Override
 	public Long id() {
-		return id;
+		return this.record.getId();
 	}
 
 	@Override
 	public String name() {
-		try (
-				final Connection connection = source.getConnection(); 
-				final PreparedStatement pstmt = connection.prepareStatement("SELECT name FROM ad_person WHERE id=?")
-		) {
-			pstmt.setLong(1, id);
-			try (final ResultSet rs = pstmt.executeQuery()) {
-				rs.next();
-				return rs.getString(1);
-			}
-		} catch (SQLException e) {
-			throw new DatabaseException(e);
-		}
+		return this.record.getName();
 	}
 
 	@Override
 	public void update(final String name) {
-		
-		if(name == null || name.trim().isEmpty())
-			throw new IllegalArgumentException("Person's name must be given !");
-		
-		try (
-			final Connection connection = source.getConnection();
-			final PreparedStatement pstmt = connection.prepareStatement("UPDATE ad_person SET name=? WHERE id=?")
-		) {
-			pstmt.setString(1, name);
-			pstmt.setLong(2, id);
-			pstmt.executeUpdate();
-		} catch (SQLException e) {
-			throw new DatabaseException(e);
-		}
-		
+		if(StringUtils.isBlank(name))
+			throw new IllegalArgumentException("Le nom doit être renseigné !");
+		this.record.setName(name);
+		this.record.store();
 	}
-
 }
