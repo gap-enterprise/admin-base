@@ -76,10 +76,16 @@ final class DbProfileAccessesTest {
     @Test
 	public void removesAccess() {
     	this.paccesses.add(MkAccess.CONFIGURER_UTILISATEURS);
+    	MatcherAssert.assertThat(
+    			"Profile should have this access : CONFIGURER_UTILISATEURS",
+    			this.paccesses.has(MkAccess.CONFIGURER_UTILISATEURS),
+    			Matchers.is(true)
+		);
     	this.paccesses.remove(MkAccess.CONFIGURER_UTILISATEURS);
     	MatcherAssert.assertThat(
-            new ListOf<>(this.paccesses.iterate()).stream().noneMatch(p -> p.code().equals("CONFIGURER_UTILISATEURS")),
-            Matchers.is(true)
+    			"Profile should not have this access : CONFIGURER_UTILISATEURS",
+    			this.paccesses.has(MkAccess.CONFIGURER_UTILISATEURS),
+	            Matchers.is(false)
         );
 	}
     
@@ -88,10 +94,16 @@ final class DbProfileAccessesTest {
     	this.paccesses.add(MkAccess.VISUALISER_LA_JOURNALISATION);
     	this.paccesses.add(MkAccess.CONFIGURER_PROFILS);
     	this.paccesses.add(MkAccess.BLOQUER_UTILISATEURS);
+    	MatcherAssert.assertThat(
+    			"Profile should have these accesses : VISUALISER_LA_JOURNALISATION, CONFIGURER_PROFILS, BLOQUER_UTILISATEURS",
+				this.paccesses.iterate(),
+	            Matchers.hasItems(MkAccess.VISUALISER_LA_JOURNALISATION, MkAccess.CONFIGURER_PROFILS, MkAccess.BLOQUER_UTILISATEURS)
+        );
     	this.paccesses.removeAll();
     	MatcherAssert.assertThat(
-			this.paccesses.iterate(),
-            Matchers.emptyIterable()
+    			"Profile must be empty",
+				this.paccesses.iterate(),
+	            Matchers.emptyIterable()
         );
 	}
     
