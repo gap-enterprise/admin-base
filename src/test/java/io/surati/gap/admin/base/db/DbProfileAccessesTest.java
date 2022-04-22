@@ -16,14 +16,13 @@
  */
 package io.surati.gap.admin.base.db;
 
+import org.cactoos.list.ListOf;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
-
 import com.lightweight.db.EmbeddedPostgreSQLDataSource;
-
 import io.surati.gap.admin.base.api.Access;
 import io.surati.gap.admin.base.api.Module;
 import io.surati.gap.admin.base.api.Profile;
@@ -62,30 +61,38 @@ final class DbProfileAccessesTest {
     @BeforeEach
     void setUp() {
     	this.newpro = new DbProfiles(this.src).add("Guest");
+    	this.paccesses = new DbProfileAccesses(this.src, this.newpro);
     }
     
     @Test
 	public void addsAccess() {
     	this.paccesses.add(MkAccess.VISUALISER_UTILISATEURS);
     	MatcherAssert.assertThat(
-    			paccesses.has(MkAccess.VISUALISER_UTILISATEURS),
+    			this.paccesses.has(MkAccess.VISUALISER_UTILISATEURS),
     			Matchers.is(true)
 		);
 	}
     
     @Test
 	public void removesAccess() {
-    	
+    	this.paccesses.add(MkAccess.CONFIGURER_UTILISATEURS);
+    	this.paccesses.remove(MkAccess.CONFIGURER_UTILISATEURS);
+    	MatcherAssert.assertThat(
+            new ListOf<>(this.paccesses.iterate()).stream().noneMatch(p -> p.code().equals("CONFIGURER_UTILISATEURS")),
+            Matchers.is(true)
+        );
 	}
     
     @Test
 	public void removesAllAccess() {
-    	
-	}
-    
-    @Test
-	public void checksAccess() {
-    	
+    	this.paccesses.add(MkAccess.VISUALISER_LA_JOURNALISATION);
+    	this.paccesses.add(MkAccess.CONFIGURER_PROFILS);
+    	this.paccesses.add(MkAccess.BLOQUER_UTILISATEURS);
+    	this.paccesses.removeAll();
+    	MatcherAssert.assertThat(
+			this.paccesses.iterate(),
+            Matchers.emptyIterable()
+        );
 	}
     
     private enum MkAccess implements Access {
