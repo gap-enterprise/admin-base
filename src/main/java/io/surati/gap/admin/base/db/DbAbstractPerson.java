@@ -45,11 +45,6 @@ public abstract class DbAbstractPerson implements Person {
 	private final AdPersonRecord record;
 	
 	/**
-	 * jOOQ database context.
-	 */
-	private final DSLContext ctx;
-	
-	/**
 	 * Id of person
 	 */
 	protected final Long id;
@@ -62,8 +57,7 @@ public abstract class DbAbstractPerson implements Person {
 	public DbAbstractPerson(final DataSource source, final Long id) {
 		this.source = source;
 		this.id = id;
-		this.ctx = new JooqContext(source);
-		this.record = this.ctx.fetchOne(AdPerson.AD_PERSON, AdPerson.AD_PERSON.ID.eq(id));
+		this.record = new JooqContext(source).fetchOne(AdPerson.AD_PERSON, AdPerson.AD_PERSON.ID.eq(id));
 	}
 	
 	@Override
