@@ -17,11 +17,7 @@
 package io.surati.gap.admin.base.db;
 
 import javax.sql.DataSource;
-
-import org.jooq.DSLContext;
-
-import com.restfb.util.StringUtils;
-
+import org.apache.commons.lang3.StringUtils;
 import io.surati.gap.admin.base.api.Person;
 import io.surati.gap.admin.base.db.jooq.generated.tables.AdPerson;
 import io.surati.gap.admin.base.db.jooq.generated.tables.records.AdPersonRecord;
@@ -71,10 +67,41 @@ public abstract class DbAbstractPerson implements Person {
 	}
 
 	@Override
+	public String address() {
+		return this.record.getAddress();
+	}
+
+	@Override
+	public String pobox() {
+		return this.record.getPobox();
+	}
+
+	@Override
+	public String phone() {
+		return this.record.getPhone();
+	}
+
+	@Override
+	public String email() {
+		return this.record.getEmail();
+	}
+
+	@Override
 	public void update(final String name) {
 		if(StringUtils.isBlank(name))
 			throw new IllegalArgumentException("Le nom doit être renseigné !");
 		this.record.setName(name);
+		this.record.store();
+	}
+
+	@Override
+	public void contacts(
+		final String address, final String pobox, final String phone, final String email
+	) {
+		this.record.setAddress(address);
+		this.record.setPobox(pobox);
+		this.record.setPhone(phone);
+		this.record.setEmail(email);
 		this.record.store();
 	}
 }

@@ -34,10 +34,43 @@ public interface Person {
 	 * @return name
 	 */
 	String name();
+
+	/**
+	 * Get address.
+	 * @return Address
+	 */
+	String address();
+
+	/**
+	 * Get P.O. Box
+	 * @return P.O. Box
+	 */
+	String pobox();
+
+	/**
+	 * Get phone.
+	 * @return Phone
+	 */
+	String phone();
+
+	/**
+	 * Get email.
+	 * @return E-mail
+	 */
+	String email();
 	
 	/**
 	 * Modify name of a person
 	 * @param name
 	 */
 	void update(String name);
+
+	/**
+	 * Set contacts.
+	 * @param address Address
+	 * @param pobox P.O. Box
+	 * @param phone Phone
+	 * @param email Email
+	 */
+	void contacts(String address, String pobox, String phone, String email);
 }

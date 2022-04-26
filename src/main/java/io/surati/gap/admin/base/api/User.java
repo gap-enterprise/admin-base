@@ -105,12 +105,37 @@ public interface User extends Person {
 		public void update(String name) {
 
 		}
-		
+
+		@Override
+		public void contacts(String address, String pobox, String phone, String email) {
+
+		}
+
 		@Override
 		public String name() {
 			return StringUtils.EMPTY;
 		}
-		
+
+		@Override
+		public String address() {
+			return null;
+		}
+
+		@Override
+		public String pobox() {
+			return null;
+		}
+
+		@Override
+		public String phone() {
+			return null;
+		}
+
+		@Override
+		public String email() {
+			return null;
+		}
+
 		@Override
 		public Long id() {
 			return 0L;
