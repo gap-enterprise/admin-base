@@ -33,7 +33,11 @@ SOFTWARE.
 
       CREATE TABLE ad_person (
         id bigserial PRIMARY KEY,
-        name character varying(100) NOT NULL
+        name character varying(100) NOT NULL,
+        address character varying(150),
+        pobox character varying(50),
+        phone character varying(30),
+        email character varying(50)
       );
 
       CREATE TABLE ad_user (

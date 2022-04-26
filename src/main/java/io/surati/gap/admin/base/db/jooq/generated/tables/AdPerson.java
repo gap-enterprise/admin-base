@@ -16,7 +16,7 @@ import org.jooq.ForeignKey;
 import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row2;
+import org.jooq.Row6;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -57,6 +57,26 @@ public class AdPerson extends TableImpl<AdPersonRecord> {
      * The column <code>public.ad_person.name</code>.
      */
     public final TableField<AdPersonRecord, String> NAME = createField(DSL.name("name"), SQLDataType.VARCHAR(100).nullable(false), this, "");
+
+    /**
+     * The column <code>public.ad_person.address</code>.
+     */
+    public final TableField<AdPersonRecord, String> ADDRESS = createField(DSL.name("address"), SQLDataType.VARCHAR(150), this, "");
+
+    /**
+     * The column <code>public.ad_person.pobox</code>.
+     */
+    public final TableField<AdPersonRecord, String> POBOX = createField(DSL.name("pobox"), SQLDataType.VARCHAR(50), this, "");
+
+    /**
+     * The column <code>public.ad_person.phone</code>.
+     */
+    public final TableField<AdPersonRecord, String> PHONE = createField(DSL.name("phone"), SQLDataType.VARCHAR(30), this, "");
+
+    /**
+     * The column <code>public.ad_person.email</code>.
+     */
+    public final TableField<AdPersonRecord, String> EMAIL = createField(DSL.name("email"), SQLDataType.VARCHAR(50), this, "");
 
     private AdPerson(Name alias, Table<AdPersonRecord> aliased) {
         this(alias, aliased, null);
@@ -138,11 +158,11 @@ public class AdPerson extends TableImpl<AdPersonRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row2 type methods
+    // Row6 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row2<Long, String> fieldsRow() {
-        return (Row2) super.fieldsRow();
+    public Row6<Long, String, String, String, String, String> fieldsRow() {
+        return (Row6) super.fieldsRow();
     }
 }
